@@ -1,14 +1,14 @@
 const express= require('express');
 const mongoose=require('mongoose');
 const app= express();
-// const dotenv= require('dotenv');
+const dotenv= require('dotenv');
 const dbConfig = require('./config/db');
 const bodyparser= require('body-parser');
 const cors= require('cors');
 const authRoutes = require('./routes/auth');
 const PORT=  5000;
 
-// dotenv.config();
+dotenv.config();
 
 mongoose.connect(dbConfig.url, {
     useNewUrlParser: true,
