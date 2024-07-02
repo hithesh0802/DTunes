@@ -20,14 +20,14 @@ const AuthProvider = ({ children }) => {
     }, []);
 
     const register = async (userData) => {
-        const res = await axios.post('/api/users/register', userData);
+        const res = await axios.post('/api/auth/register', userData);
         localStorage.setItem('token', res.data.token);
         axios.defaults.headers.common['Authorization'] = res.data.token;
         setUser(res.data.user);
     };
 
     const login = async (userData) => {
-        const res = await axios.post('/api/users/login', userData);
+        const res = await axios.post('/api/auth/login', userData);
         localStorage.setItem('token', res.data.token);
         axios.defaults.headers.common['Authorization'] = res.data.token;
         setUser(res.data.user);

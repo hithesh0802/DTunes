@@ -1,20 +1,20 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/authContext';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
-import './App.cs';
+import './App.css';
 
 const App = () => {
     return (
         <AuthProvider>
             <Router>
-                <Switch>
+                <Routes>
                     <Route path="/" exact component={Home} />
                     <Route path="/register" component={Register} />
                     <Route path="/login" component={Login} />
-                </Switch>
+                </Routes>
             </Router>
         </AuthProvider>
     );
