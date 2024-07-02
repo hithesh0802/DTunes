@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../context/authContext';
+// import { AuthContext } from '../context/api';
 
 const Home = () => {
-    const { user, logout } = useContext(AuthContext);
+    // const { user, logout } = useContext(AuthContext);
     const [query, setQuery] = useState('');
     const [songs, setSongs] = useState([]);
     const [playlistName, setPlaylistName] = useState('');
@@ -35,10 +35,10 @@ const Home = () => {
     return (
         <div>
             <h1>Welcome to DTunes</h1>
-            {user ? (
+            
                 <div>
-                    <p>Hello, {user.username}</p>
-                    <button onClick={logout}>Logout</button>
+                    <p>Hello</p>
+                    <button >Logout</button>
                     <form onSubmit={handleSearch}>
                         <input
                             type="text"
@@ -75,11 +75,11 @@ const Home = () => {
                         ))}
                     </div>
                 </div>
-            ) : (
+             : (
                 <div>
                     <p>Please register or login to continue</p>
                 </div>
-            )}
+            )
         </div>
     );
 };
