@@ -38,7 +38,7 @@ const Home = () => {
             
                 <div>
                     <p>Hello</p>
-                    <button >Logout</button>
+                    <button className="w-full p-2 bg-blue-500 text-white rounded">Logout</button>
                     <form onSubmit={handleSearch}>
                         <input
                             type="text"
@@ -46,14 +46,14 @@ const Home = () => {
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder="Search for music..."
                         />
-                        <button type="submit">Search</button>
+                        <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">Search</button>
                     </form>
                     <div>
                         {songs.map((song) => (
                             <div key={song._id}>
                                 <p>{song.title} by {song.artist}</p>
-                                <button onClick={() => handleLike(song._id)}>Like</button>
-                                <button onClick={() => handleDislike(song._id)}>Dislike</button>
+                                <button onClick={() => handleLike(song._id)} className="w-full p-2 bg-blue-500 text-white rounded">Like</button>
+                                <button onClick={() => handleDislike(song._id)} className="w-full p-2 bg-blue-500 text-white rounded">Dislike</button>
                             </div>
                         ))}
                     </div>
@@ -65,7 +65,7 @@ const Home = () => {
                             placeholder="Playlist Name"
                             required
                         />
-                        <button type="submit">Create Playlist</button>
+                        <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">Create Playlist</button>
                     </form>
                     <div>
                         {playlists.map((playlist) => (
@@ -75,11 +75,6 @@ const Home = () => {
                         ))}
                     </div>
                 </div>
-             : (
-                <div>
-                    <p>Please register or login to continue</p>
-                </div>
-            )
         </div>
     );
 };

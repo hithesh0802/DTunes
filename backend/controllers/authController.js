@@ -27,9 +27,7 @@ exports.register = async (req, res,next) => {
     } catch (err) {
       return next(err);
     }
-  
-    //   return res.status(200).json({ token, user });
-    } ;
+} ;
   
 
 exports.login = async (req, res,next) => {
