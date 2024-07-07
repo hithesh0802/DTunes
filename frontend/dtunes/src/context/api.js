@@ -12,4 +12,8 @@ export const loginUser = async (userData) => {
     return response.data;
   };
 
+export const searchSongs =async(userData) =>{
+  const response= await axios.get(`${API_URL}/songs/search`, userData);
+  return response.data();
+}
 

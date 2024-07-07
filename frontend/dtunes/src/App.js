@@ -5,15 +5,17 @@ import Home from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import './App.css';
+import Enter from './pages/Enter';
 
 const App = () => {
     return (
         // <AuthProvider>
             <Router>
                 <Routes>
-                    <Route path="/" element={<Home /> } />
+                    <Route path="/home" element={<Home /> } />
                     <Route path="/register" element={<Register/>} />
                     <Route path="/login" element={<Login/>} />
+                    <Route path="/" element={<Enter></Enter>} ></Route>
                 </Routes>
             </Router>
         // {/* </AuthProvider> */}

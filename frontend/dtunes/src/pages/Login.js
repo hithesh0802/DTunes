@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState} from 'react';
 import { loginUser } from '../context/api';
 // import { AuthContext } from '../context/api';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ const Login = () => {
         const response= await loginUser({email,password});
         console.log('API response:', response, response.token); // Log the response for debugging
         localStorage.setItem('token', response.token);
-        navigate('/');
+        navigate('/home');
         }catch(error){
             console.log('Login error',error);
             throw error;
