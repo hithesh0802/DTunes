@@ -52,5 +52,24 @@ const streamSong = async (req, res) => {
     }
 };
 
-module.exports = { searchSongs, streamSong, likeSong, dislikeSong };
+const createSong = async (req, res) => {
+    const { id } = req.user?.id;
+    const {title ,artist, thumbnail, url } = req.body;
+    try {
+        let song= await Song.findOne({url: url});
+        if (song) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+
+        const newsong =  new Song({userid: id , title,artist,thumbnail,url});
+        await newsong.save();
+        console.log(newsong);
+
+        res.status(200).json(newsong);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+module.exports = { searchSongs, streamSong, likeSong, dislikeSong,createSong };
 

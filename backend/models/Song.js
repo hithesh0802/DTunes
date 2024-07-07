@@ -6,6 +6,8 @@ const SongSchema = new mongoose.Schema({
     url: { type: String, required: true },
     likes: { type: Number, default: 0 },
     dislikes: { type: Number, default: 0 },
+    thumbnail: {type: String},
+    userid: {type: String, required: true },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Song', SongSchema);
