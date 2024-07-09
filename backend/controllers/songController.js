@@ -31,12 +31,27 @@ const dislikeSong = async (req, res) => {
 };
 
 const searchSongs = async (req, res) => {
-    const { query } = req.query;
+    const query = req.query.q;
+    const token = req.session.access_token;
+
+    const options = {
+        headers: {
+            'Authorization': `${token}`
+        }
+    };
+
     try {
-        const songs = await Song.find({ title: { $regex: query, $options: 'i' } });
-        res.status(200).json(songs);
+        const response = await axios.get(`https://api.spotify.com/v1/search?q=${query}&type=track`, options);
+        const tracks = response.data.tracks.items.map(track => ({
+            id: track.id,
+            title: track.name,
+            artist: track.artists[0].name,
+            url: track.preview_url,
+        }));
+
+        res.json(tracks);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).send(error);
     }
 };
 

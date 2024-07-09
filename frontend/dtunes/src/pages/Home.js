@@ -3,6 +3,7 @@ import axios from 'axios';
 // import { AuthContext } from '../context/api';
 import {Icon} from '@iconify/react';
 import { Link, useNavigate } from 'react-router-dom';
+import SpotifyWebApi from 'spotify-web-api-js';
 
 const Home = () => {
     // const { user, logout } = useContext(AuthContext);
@@ -38,9 +39,11 @@ const Home = () => {
         navigate('/');
     }
 
+    const spotify= new SpotifyWebApi;
+
     return (
-        <div className="bg-gray-900 min-h-screen text-white">
-  <nav className="bg-gray-800 shadow-lg">
+        <div className=" min-h-screen text-white overflow-auto" style={{backgroundColor: '#070D04'}}>
+  <nav className=" shadow-lg" style={{backgroundColor: "#1B2A2B"}}>
     <div className="container mx-auto flex flex-wrap items-center justify-between p-4">
       <Link className="flex items-center text-white text-2xl font-bold" to="/home">
         <Icon icon="noto-v1:radio" className="mr-2"></Icon>DTunes
@@ -68,16 +71,21 @@ const Home = () => {
         </ul>
         <form className="flex items-center mt-3 lg:mt-0 lg:ml-6" role="search">
           <input className="form-input mr-2 rounded-md border border-gray-300 py-2 px-4 bg-gray-900 text-white" type="search" placeholder="Search" aria-label="Search"/>
-          <button className="text-white border border-green-500 py-2 px-4 rounded-md hover:bg-green-500 hover:text-white" type="submit">Search</button>
+          <button className="text-white border border-green-500 py-2 px-4 rounded-md hover:bg-green-500 hover:text-white" type="submit">
+            <Icon icon="bx:search-alt" className='mr-2 text-white text-xl' style={{ color: 'white' }}></Icon>
+          </button>
         </form>
       </div>
     </div>
   </nav>
 
   <div className="container mx-auto p-6">
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+    
+      <div className=" p-6 rounded-lg shadow-lg" style={{backgroundColor: "#2A2B30"}}>
         <h2 className="text-2xl font-bold mb-4">Playlists</h2>
+        <PlayListView titletext="Focus" focusCardsData={focusCardsData}></PlayListView>
+        <PlayListView titletext="Spotify Playlists" focusCardsData={focusCardsData}></PlayListView>
+        <PlayListView titletext="Sound of India" focusCardsData={focusCardsData}></PlayListView>
         <div className="space-y-4">
           {playlists.map((playlist) => (
             <div key={playlist._id} className="bg-gray-700 p-4 rounded-lg">
@@ -86,7 +94,8 @@ const Home = () => {
           ))}
         </div>
       </div>
-      <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+
+    <div className=" p-6 rounded-lg shadow-lg" style={{backgroundColor: "#2A2B30"}}>
         <h2 className="text-2xl font-bold mb-4">Songs</h2>
         <div className="space-y-4">
           {songs.map((song) => (
@@ -100,9 +109,8 @@ const Home = () => {
           ))}
         </div>
       </div>
-    </div>
 
-    <div className="bg-gray-800 p-6 rounded-lg shadow-lg mt-6">
+    <div className=" p-6 rounded-lg shadow-lg mt-6" style={{backgroundColor: "#2A2B30"}}>
       <h2 className="text-2xl font-bold mb-4">Create Playlist</h2>
       <form onSubmit={handleCreatePlaylist} className="space-y-4">
         <input
@@ -117,7 +125,7 @@ const Home = () => {
       </form>
     </div>
 
-    <div className="bg-gray-800 p-6 rounded-lg shadow-lg mt-6">
+    <div className=" p-6 rounded-lg shadow-lg mt-6">
       <button onClick={handleLogout} className="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition duration-200">Logout</button>
     </div>
   </div>
@@ -126,4 +134,59 @@ const Home = () => {
     );
 };
 
+const PlayListView=({titletext,focusCardsData})=>{
+    return (
+        <div className='text-white'>
+            <div className ='text-xl font-semibold' style={{margin: "10px 1px 1px 1px"}}>{titletext}</div>
+            <div className='w-full flex justify-between space-x-4' style={{backgroundColor: "#2A2B30"}}>
+                {
+                focusCardsData.map((item) => {
+                    return (
+                        <Card title={item.title} description={item.description} imgUrl={item.imgUrl}/>
+                    )
+                })
+            }
+            </div>  
+        </div>
+    )
+}
+
+const Card=({title,description,imgUrl})=>{
+    return(
+        <div className=' bg-opacity-30 w-1/6 rounded-md' style={{backgroundColor: '#1D1E1F' , margin: '10px'}}>
+            <img 
+                className='w-full rounded-md'
+                src={imgUrl}
+                alt='label image'
+            />
+            <div className='text-white py-2 px-2'>{title}</div>
+            <div className='text-gray-500 px-2'>{description}</div>
+        </div>
+    )
+}
+
+const focusCardsData=[
+    {
+        title:"Peaceful Piano",
+        description:"Relax and Indulge with beautiful piano pieces",
+        imgUrl: "https://images.unsplash.com/photo-1720371300677-ba4838fa0678?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+        title:"Deep Focus" ,
+        description:"Keep Calm and Focused",
+        imgUrl: "https://images.unsplash.com/photo-1720371300677-ba4838fa0678?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },{
+        title:"Instrumental Study" ,
+        description:"Focus with soft study music in the background",
+        imgUrl: "https://images.unsplash.com/photo-1720371300677-ba4838fa0678?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },{
+        title:"Focus Flow" ,
+        description:"Uptempo hip hop instrumental beats",
+        imgUrl: "https://images.unsplash.com/photo-1720371300677-ba4838fa0678?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },{ 
+        title:"Beats to think to" ,
+        description:"Focus with deep techno and tech house",
+        imgUrl: "https://images.unsplash.com/photo-1720371300677-ba4838fa0678?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+]
 export default Home;

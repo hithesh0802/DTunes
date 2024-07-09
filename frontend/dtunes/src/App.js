@@ -10,6 +10,7 @@ import Enter from './pages/Enter';
 const App = () => {
     return (
         // <AuthProvider>
+        <div className='min-h-screen w-full font-poppins'>
             <Router>
                 <Routes>
                     <Route path="/home" element={<Home /> } />
@@ -18,6 +19,7 @@ const App = () => {
                     <Route path="/" element={<Enter></Enter>} ></Route>
                 </Routes>
             </Router>
+        </div>
         // {/* </AuthProvider> */}
     );
 };

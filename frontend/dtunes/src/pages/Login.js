@@ -23,10 +23,15 @@ const Login = () => {
         }
     };
 
-    return (<form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 p-6 bg-gray-800 text-white rounded-lg shadow-lg">
+    return (
+    <div className='min-h-screen bg-gray-900 flex items-center justify-center'>
+    <form onSubmit={handleSubmit} className="w-full max-w-md mt-10 p-6 bg-gray-800 text-white rounded-lg shadow-lg">
     <div className="flex items-center justify-between mb-6">
       <h1 className="text-3xl font-bold">DTunes</h1>
       <Icon icon="noto-v1:radio" className="text-4xl"></Icon>
+    </div>
+    <div className='font-bold mb-12'>
+        To continue, login to DTunes.
     </div>
     <div className="mb-4">
       <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">Email</label>
@@ -61,7 +66,7 @@ const Login = () => {
       Login
     </button>
   </form>
-  
+  </div>
     );
 };
 

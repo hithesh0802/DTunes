@@ -8,8 +8,11 @@ const cors= require('cors');
 const authRoutes = require('./routes/auth');
 const songRoutes = require('./routes/songs');
 const playlistRoutes = require('./routes/playlist');
-
+const spotifyRoutes = require('./routes/spotify');
 const PORT=  5000;
+const session = require('express-session');
+const musicRouter = require('./routes/music');
+
 
 dotenv.config();
 
@@ -26,9 +29,17 @@ app.use(express.json());
 app.use(bodyparser.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use(session({
+  secret: process.env.JWT, // Replace with your own secret key
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: true } // Set to true if using HTTPS
+}));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/songs', songRoutes);
 app.use('/api/playlists', playlistRoutes);
+app.use('/api/spotify', spotifyRoutes);
+app.use('/api/music', musicRouter);
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
