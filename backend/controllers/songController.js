@@ -53,15 +53,16 @@ const streamSong = async (req, res) => {
 };
 
 const createSong = async (req, res) => {
-    const { id } = req.user?.id;
+    const { userId } = req.user?.id;
     const {title ,artist, thumbnail, url } = req.body;
+    console.log(req.user.id, userId , req.user);
     try {
         let song= await Song.findOne({url: url});
         if (song) {
             return res.status(400).json({ message: 'User already exists' });
         }
 
-        const newsong =  new Song({userid: id , title,artist,thumbnail,url});
+        const newsong =  new Song({ user: req.user.id , title,artist,thumbnail,url});
         await newsong.save();
         console.log(newsong);
 
@@ -71,5 +72,48 @@ const createSong = async (req, res) => {
     }
 };
 
-module.exports = { searchSongs, streamSong, likeSong, dislikeSong,createSong };
+const getMySongs = async (req, res) => {
+    const { id } =await req.user?.id;
+    console.log(id);
+    try {
+        let songs= await Song.find({user: req.user.id});
+        if(!songs){
+            res.status(200).json({message: "No songs found."})
+        }
+
+        res.status(200).json(songs);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const getSongsByArtist = async (req, res) => {
+    const { artist } = req.body.artist.toString();
+    console.log(artist, req.body, req.body.artist);
+    try {
+        let songs= await Song.find({artist: req.body.artist});
+        if(songs[0] === ''){
+            res.status(200).json({message: "No songs found."})
+        }
+        console.log(songs);
+        res.status(200).json(songs);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const getSongsByTitle = async (req, res) => {
+    try {
+        let songs= await Song.find({title: req.body.title});
+        if(songs[0] === ''){
+            res.status(200).json({message: "No songs found."})
+        }
+        console.log(songs);
+        res.status(200).json(songs);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+module.exports = { searchSongs, streamSong, likeSong, dislikeSong,createSong ,getMySongs,getSongsByArtist,getSongsByTitle};
 
