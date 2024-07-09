@@ -3,9 +3,9 @@ const Song = require('../models/Song');
 
 const createPlaylist = async (req, res) => {
     const { name, thumbnail,songs } = req.body;
-    const userId = req.user;
+    const userId = req.user.id;
     try {
-        const newPlaylist = new Playlist({ name, thumbnail, user: userId, songs: songs });
+        const newPlaylist = new Playlist({ name, thumbnail, user: req.user.id, songs: songs });
         await newPlaylist.save();
         res.status(201).json(newPlaylist);
     } catch (error) {
@@ -20,7 +20,8 @@ const addSongToPlaylist = async (req, res) => {
         const playlist = await Playlist.findById(playlistId);
         if (!playlist) return res.status(404).json({ message: 'Playlist not found' });
 
-        if(playlist.owner !== currentUser._id ){
+        console.log(playlist.user.toString() , req.user.id);
+        if(playlist.user.toString() !== req.user.id ){
             return res.status(301).json({message: "only owner allowed to edit"});
         }
 
@@ -28,7 +29,7 @@ const addSongToPlaylist = async (req, res) => {
         if(!song){
             return res.status(301).json({message: "song not valid/available"});
         }
-        
+        console.log(song);
         playlist.songs.push(songId);
         await playlist.save();
         res.status(200).json(playlist);
