@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import './App.css';
 import Enter from './pages/Enter';
+import UploadSong from './pages/upload';
 
 const App = () => {
     return (
@@ -17,6 +18,7 @@ const App = () => {
                     <Route path="/register" element={<Register/>} />
                     <Route path="/login" element={<Login/>} />
                     <Route path="/" element={<Enter></Enter>} ></Route>
+                    <Route path='/upload' element={<UploadSong></UploadSong>}></Route>
                 </Routes>
             </Router>
         </div>

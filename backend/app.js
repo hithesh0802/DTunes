@@ -10,7 +10,9 @@ const songRoutes = require('./routes/songs');
 const playlistRoutes = require('./routes/playlist');
 const PORT=  5000;
 const session = require('express-session');
-
+const path= require('path');
+const fs = require('fs');
+// const userRoutes=require('./routes/user');
 
 dotenv.config();
 
@@ -37,5 +39,12 @@ app.use(session({
 app.use('/api/auth', authRoutes);
 app.use('/api/songs', songRoutes);
 app.use('/api/playlists', playlistRoutes);
+// app.use('/api/users', userRoutes);
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
 
+// Serve static files from the uploads directory
+app.use('/uploads', express.static(uploadsDir));
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

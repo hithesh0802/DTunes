@@ -1,4 +1,5 @@
 const Song = require('../models/Song');
+const upload = require('../utils/multer');
 
 const likeSong = async (req, res) => {
     const { id } = req.params;
@@ -69,7 +70,7 @@ const streamSong = async (req, res) => {
 
 const createSong = async (req, res) => {
     const { userId } = req.user?.id;
-    const {title ,artist, thumbnail, url } = req.body;
+    const {title ,artist, thumbnail, url,imgurl,description } = req.body;
     console.log(req.user.id, userId , req.user);
     try {
         let song= await Song.findOne({url: url});
@@ -77,7 +78,7 @@ const createSong = async (req, res) => {
             return res.status(400).json({ message: 'User already exists' });
         }
 
-        const newsong =  new Song({ user: req.user.id , title,artist,thumbnail,url});
+        const newsong =  new Song({ user: req.user.id , title,artist,thumbnail,url,imgurl,description});
         await newsong.save();
         console.log(newsong);
 
@@ -91,7 +92,7 @@ const getMySongs = async (req, res) => {
     const { id } =await req.user?.id;
     console.log(id);
     try {
-        let songs= await Song.find({user: req.user.id});
+        let songs= await Song.find();
         if(!songs){
             res.status(200).json({message: "No songs found."})
         }
@@ -117,7 +118,7 @@ const getSongsByArtist = async (req, res) => {
     }
 };
 
-const getSongsByTitle = async (req, res) => {
+exports.getSongsByTitle = async (req, res) => {
     try {
         let songs= await Song.find({title: req.body.title});
         if(songs[0] === ''){
@@ -130,5 +131,30 @@ const getSongsByTitle = async (req, res) => {
     }
 };
 
-module.exports = { searchSongs, streamSong, likeSong, dislikeSong,createSong ,getMySongs,getSongsByArtist,getSongsByTitle};
+const uploadSong = async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ msg: 'No file uploaded' });
+      }
+  
+      // Create new music entry
+      const { title, artist, duration } = req.body;
+      const filePath = req.file.path;
+  
+      const newSong = new Music({
+        title,
+        artist,
+        duration,
+        filePath,
+      });
+  
+      await newSong.save();
+      res.status(200).json(newSong);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).json({ error: err.message });
+    }
+  };
+
+module.exports = { searchSongs, streamSong, likeSong, dislikeSong,createSong ,getMySongs,getSongsByArtist,uploadSong};
 

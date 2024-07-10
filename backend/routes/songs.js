@@ -1,7 +1,8 @@
 const express = require('express');
-const { searchSongs, streamSong, createSong,getMySongs, getSongsByArtist, getSongsByTitle } = require('../controllers/songController');
+const { searchSongs, streamSong, createSong,getMySongs, getSongsByArtist, uploadSong } = require('../controllers/songController');
 const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
+const upload = require('../utils/multer');
 
 router.get('/search', searchSongs);
 router.get('/stream/:id', streamSong);
@@ -10,6 +11,6 @@ router.get('/stream/:id', streamSong);
 router.post('/create', authMiddleware, createSong);
 router.get('/mysongs',authMiddleware,getMySongs);
 router.get('/songsbyartist',getSongsByArtist);
-router.get('/songsbytitle',getSongsByTitle);
+router.post('/upload', upload.single('songFile'), uploadSong);
 
 module.exports = router;
