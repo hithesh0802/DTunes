@@ -5,6 +5,7 @@ const PlaylistSchema = new mongoose.Schema({
     thumbnail: { type: String },
     songs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Song' }],
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    imgurl: { type: String, required: true },
     owner:{type: mongoose.Schema.Types.ObjectId, ref:'User'},
 }, { timestamps: true });
 

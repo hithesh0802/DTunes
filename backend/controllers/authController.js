@@ -33,7 +33,6 @@ exports.register = async (req, res,next) => {
 exports.login = async (req, res,next) => {
     try {
       const { email, password } = req.body;
-  
       const user = await User.findOne({ email: email });
       if (!user) {
         return next(createError(404, "User not found"));
@@ -49,7 +48,8 @@ exports.login = async (req, res,next) => {
       const token = jwt.sign({ id: user._id }, process.env.JWT, {
         expiresIn: "9999 years",
       });
-  
+      
+      console.log(token);
       return res.status(200).json({ token, user });
     } catch (error) {
       return next(error);
