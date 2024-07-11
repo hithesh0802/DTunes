@@ -66,7 +66,7 @@ const Home = () => {
             <Link to="/playlists" className="text-white text-lg px-3 py-2 rounded-md font-medium hover:bg-gray-700">Your Playlists</Link>
           </li>
           <li className="nav-item">
-            <Link to="/favourites" className="text-white text-lg px-3 py-2 rounded-md font-medium hover:bg-gray-700">Favourites</Link>
+            <Link to="/MyMusic" className="text-white text-lg px-3 py-2 rounded-md font-medium hover:bg-gray-700">My Songs</Link>
           </li>
         </ul>
         <form className="flex items-center mt-3 lg:mt-0 lg:ml-6" role="search">

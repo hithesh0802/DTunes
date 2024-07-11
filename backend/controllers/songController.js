@@ -90,13 +90,11 @@ const createSong = async (req, res) => {
 
 const getMySongs = async (req, res) => {
     const { id } =await req.user?.id;
-    console.log(id);
     try {
         let songs= await Song.find();
         if(!songs){
             res.status(200).json({message: "No songs found."})
         }
-
         res.status(200).json(songs);
     } catch (error) {
         res.status(500).json({ error: error.message });

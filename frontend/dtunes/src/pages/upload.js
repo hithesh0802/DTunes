@@ -10,6 +10,9 @@ const UploadSong = () => {
   const [artist, setArtist] = useState('');
   const [imgurl, setImgurl] = useState('');
   const [uploadedfilename,setUploadedfilename] = useState('');
+  const [description,setDescription]= useState('');
+  const [duration, setDuration]= useState('');
+
   const navigate= useNavigate();
   const API_URL= 'http://localhost:5000/api';
 
@@ -20,7 +23,9 @@ const UploadSong = () => {
         title: title,
         artist: artist,
         url: url,
-        imgurl: imgurl
+        imgurl: imgurl,
+        description: description,
+        duration: duration
       };
       console.log(body);
       const response =await axios.post(`${API_URL}/songs/create`, body, {
@@ -40,6 +45,8 @@ const UploadSong = () => {
       setImgurl('');
       setUrl('');
       setUploadedfilename('');
+      setDescription('');
+      setDuration('');
       navigate('/home');
     } catch (err) {
       console.error(err);
@@ -107,6 +114,16 @@ const UploadSong = () => {
             />
           </div>
           <div>
+            <label className="block text-white text-lg font-medium mb-2">Description</label>
+            <input 
+              type="text" 
+              placeholder="Description" 
+              value={description} 
+              onChange={(e) => setDescription(e.target.value)} 
+              className="w-full py-2 px-4 mb-2 border border-gray-300 rounded-md bg-gray-900 text-white focus:outline-none"
+            />
+          </div>
+          <div>
             <label className="block text-white text-lg font-medium mb-2">Thumbnail (Image) url</label>
             <input 
               type="text" 
@@ -124,6 +141,16 @@ const UploadSong = () => {
               : 
               <CloudinaryUpload setUrl={setUrl} setUploadedfilename={setUploadedfilename} />
           }
+          </div>
+          <div>
+            <label className="block text-white text-lg font-medium mb-2">Thumbnail (Image) url</label>
+            <input 
+              type="text" 
+              placeholder="Minutes: Seconds" 
+              value={duration} 
+              onChange={(e) => setDuration(e.target.value)} 
+              className="w-full py-2 px-4 mb-4 border border-gray-300 rounded-md bg-gray-900 text-white focus:outline-none"
+            />
           </div>
           <button 
             type="submit" 

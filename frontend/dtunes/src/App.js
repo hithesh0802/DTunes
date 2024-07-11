@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import './App.css';
 import Enter from './pages/Enter';
 import UploadSong from './pages/upload';
+import MyMusic from './pages/MyMusic';
 
 const App = () => {
     return (
@@ -18,6 +19,7 @@ const App = () => {
                     <Route path="/register" element={<Register/>} />
                     <Route path="/login" element={<Login/>} />
                     <Route path="/" element={<Enter></Enter>} ></Route>
+                    <Route path='/myMusic' element={<MyMusic></MyMusic>} ></Route>
                     <Route path='/upload' element={<UploadSong></UploadSong>}></Route>
                 </Routes>
             </Router>
