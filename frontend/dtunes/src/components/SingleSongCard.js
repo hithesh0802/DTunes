@@ -1,6 +1,12 @@
-const SingleSongCard=({info})=>{
+import { useContext } from "react";
+import songContext from "../context/songContext";
+
+const SingleSongCard=({info, playSound})=>{
+    const {currentSong,setCurrentSong}= useContext(songContext);
+    // console.log(val);
+
     return(
-        <div className="flex hover:bg-gray-600 hover:bg-opacity-30 p-2 rounded-sm">
+        <div className="flex hover:bg-gray-600 hover:bg-opacity-30 p-2 rounded-sm " onClick={()=>{setCurrentSong(info)}}>
             <div className="w-12 h-12 bg-cover bg-center"
             style={{
                 backgroundImage: `url("${info.imgurl}")`

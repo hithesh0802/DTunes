@@ -37,7 +37,7 @@ const searchSongs = async (req, res) => {
 
     const options = {
         headers: {
-            'Authorization': `${token}`
+            'Authorization': `Bearer ${token}`
         }
     };
 
@@ -116,16 +116,17 @@ const getSongsByArtist = async (req, res) => {
     }
 };
 
-exports.getSongsByTitle = async (req, res) => {
+const getSongsByTitle = async (req, res) => {
+    console.log(req.query, req.query.title)
     try {
-        let songs= await Song.find({title: req.body.title});
+        let songs= await Song.find({title: req.query.title});
         if(songs[0] === ''){
-            res.status(200).json({message: "No songs found."})
+            return res.status(200).json({message: "No songs found."})
         }
         console.log(songs);
-        res.status(200).json(songs);
+        return res.status(200).json(songs);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 };
 
@@ -154,5 +155,5 @@ const uploadSong = async (req, res) => {
     }
   };
 
-module.exports = { searchSongs, streamSong, likeSong, dislikeSong,createSong ,getMySongs,getSongsByArtist,uploadSong};
+module.exports = { searchSongs, streamSong, likeSong, dislikeSong,createSong ,getMySongs,getSongsByArtist,getSongsByTitle,uploadSong};
 
