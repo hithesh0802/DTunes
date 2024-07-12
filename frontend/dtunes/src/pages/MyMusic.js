@@ -55,7 +55,7 @@ const MyMusic = () => {
     }]
 
   return (
-    <div className="min-h-screen text-white overflow-auto" style={{ backgroundColor: '#070D04' }}>
+    <div className="min-h-screen text-white overflow-auto bg-black" >
       <LoggedinContainer curActScreen={"My Music"}>
       <div className="container mx-auto p-4 overflow-auto">
         <div className="text-white text-lg font-semibold pb-4 pl-2">My Songs</div>

@@ -11,14 +11,20 @@ const CreatePlaylist =({closeModal})=>{
     const createPlaylist =async() =>{
         const token= localStorage.getItem('token');
         const body={
-
+            name: title,
+            imgurl: imgurl
         };
+        console.log(body,token);
         const response = await axios.post(`${API_URL}/playlists/create`,body,{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
               },
         });
+        console.log(response.data);
+        // if(response._id){
+        //     closeModal();
+        // }
     }
 
     return(
@@ -43,9 +49,11 @@ const CreatePlaylist =({closeModal})=>{
                     onChange={(e) => setImgurl(e.target.value)}
                 />
                 </div>
-                <div className="bg-white w-1/3  mt-3 py-1 font-semibold text-black rounded flex justify-center items-center cursor-pointer">
+                <form onSubmit={createPlaylist}>
+                <button type="submit" className="bg-white w-1/3  mt-3 py-1 font-semibold text-black rounded flex justify-center items-center cursor-pointer" >
                     Create Playlist
-                </div>
+                    </button>
+                </form>
             </div>
         </div>
     )

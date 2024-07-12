@@ -2,10 +2,10 @@ const Playlist = require('../models/PlayList');
 const Song = require('../models/Song');
 
 const createPlaylist = async (req, res) => {
-    const { name, thumbnail,songs } = req.body;
+    const { name, imgurl,songs } = req.body;
     const userId = req.user.id;
     try {
-        const newPlaylist = new Playlist({ name, thumbnail, user: req.user.id, songs: songs });
+        const newPlaylist = new Playlist({ name, imgurl, user: req.user.id, songs: songs });
         await newPlaylist.save();
         res.status(201).json(newPlaylist);
     } catch (error) {
@@ -50,4 +50,15 @@ const getPlaylistbyId= async(req,res)=>{
     }   
 }
 
-module.exports = { createPlaylist, addSongToPlaylist ,getPlaylistbyId};
+const getMyPlaylists = async(req,res)=>{
+    try{
+        const playlists= await Playlist.find({user: req.user.id});
+        if (!playlists) return res.status(200).json({ message: 'You currently have no playlists ' });
+
+        return res.status(200).json(playlists);
+    }catch(error){
+        res.status(500).json({ error: error.message });
+    }
+}
+
+module.exports = { createPlaylist, addSongToPlaylist ,getPlaylistbyId,getMyPlaylists};

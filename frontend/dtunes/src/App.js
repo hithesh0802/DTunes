@@ -11,6 +11,7 @@ import MyMusic from './pages/MyMusic';
 import songContext from './context/songContext';
 import { useContext } from 'react';
 import SearchPage  from './pages/Search';
+import MyPlaylists from './pages/MyPlaylists';
 
 const App = () => {
     const [currentSong,setCurrentSong]= useState("");
@@ -29,7 +30,7 @@ const App = () => {
                         <Route path='/MyMusic' element={<MyMusic></MyMusic>} ></Route>
                         <Route path='/upload' element={<UploadSong></UploadSong>}></Route>                      
                         <Route path="/search" element={<SearchPage></SearchPage>}></Route>
-                    
+                        <Route path="/playlists" element={<MyPlaylists></MyPlaylists>}></Route>
                 </Routes>
                 </songContext.Provider>
                 ) : (

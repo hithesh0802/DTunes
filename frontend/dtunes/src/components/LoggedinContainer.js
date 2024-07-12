@@ -8,10 +8,31 @@ import {Howl, Howler} from 'howler';
 import songContext from '../context/songContext';
 import IconText from './IconText';
 import CreatePlaylist from '../modals/createPlaylistmodal';
-
+import AddSongToPlaylist from '../modals/addtoPlaylistmodal';
 
 const LoggedinContainer=({children,curActScreen})=>{
     const [playlistModalopen,setPlaylistModalopen]= useState(false);
+    const [addtoplaylistModal,setAddtoPlaylistModal]= useState(false);
+    const API_URL= 'http://localhost:5000/api';
+
+    const addsongtoPlaylist = async (Playlistid) => {
+        console.log("bella");
+        const songId= currentSong._id;
+        const payload= {playlistId: Playlistid,songId};
+        const token= localStorage.getItem("token");
+        const response= await axios.post(`${API_URL}/playlists/add-song`,payload,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+        })
+
+        console.log(response.data);
+        if(response.data._id){
+            setAddtoPlaylistModal(false);
+        }
+    };
+
     const {
         currentSong,
         setCurrentSong,
@@ -80,7 +101,8 @@ const LoggedinContainer=({children,curActScreen})=>{
     return(
         <div className="overflow-auto" style={{ backgroundColor: '#070D04' }}>
             {playlistModalopen && <CreatePlaylist closeModal={()=>{setPlaylistModalopen(false)}} />}
-            <nav className=" shadow-lg bg-black bg-opacity-80" >
+            {addtoplaylistModal && <AddSongToPlaylist closeModal={()=>{setAddtoPlaylistModal(false)}} addsongtoPlaylist={addsongtoPlaylist}/>}
+            <nav className=" shadow-lg bg-blue-950 bg-opacity-80" >
             <div className="container mx-auto flex flex-wrap items-center justify-between p-4">
             <Link className="flex items-center text-white text-2xl font-bold" to="/home">
                 <Icon icon="noto-v1:radio" className="mr-2"></Icon>DTunes
@@ -131,16 +153,17 @@ const LoggedinContainer=({children,curActScreen})=>{
             </div>
       </div>
         <div className={'w-1/2 flex justify-center items-center h-full bg-gray-900'} style={{ display: !currentSong ? 'none' : '' }}>
-            <div className='flex justify-between items-center w-1/2 bg-opacity-90'>
+            <div className='flex  items-center w-1/2 bg-opacity-90'>
               <Icon icon="ph:shuffle-fill" className='m-4 text-2xl cursor-pointer text-gray-700 hover:text-white'></Icon>
               <Icon icon="mdi:skip-previous-outline" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white' ></Icon>
               <Icon icon={ isPaused? "ic:baseline-play-circle" : "ic:baseline-pause-circle"} className='m-4 text-4xl cursor-pointer text-gray-700 hover:text-white' onClick={()=>{togglePLayPause();}}></Icon>
               <Icon icon="mdi:skip-next-outline" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white'></Icon>
               <Icon icon="ic:twotone-repeat" className='m-4 text-2xl cursor-pointer text-gray-700 hover:text-white'></Icon>
             </div>
-            {/* <div>
-              Progress Bar
-            </div> */}
+            </div>
+            <div className='w-1/4 flex justify-end items-center pr-4 space-x-3 '>
+                <Icon icon="ic:round-playlist-add" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white' onClick={()=>{setAddtoPlaylistModal(true)}}></Icon>
+                <Icon icon="ph:heart-bold" className='m-4 text-2xl cursor-pointer text-gray-700 hover:text-white'></Icon>
             </div>
         </div> 
     </div>
