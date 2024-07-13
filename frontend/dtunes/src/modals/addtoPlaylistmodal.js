@@ -21,8 +21,10 @@ const AddSongToPlaylist=({closeModal,addsongtoPlaylist})=>{
         console.log(addsongtoPlaylist);
     },[]);
 
-    const handlePlaylistClick = (playlistId) => {
-        addsongtoPlaylist(playlistId);
+    const handlePlaylistClick = async(playlistId) => {
+        console.log("bih");
+        await addsongtoPlaylist(playlistId);
+        closeModal();
     };
 
     return(
@@ -33,7 +35,7 @@ const AddSongToPlaylist=({closeModal,addsongtoPlaylist})=>{
                 </div>
                 <div className="space-y-4 flex flex-col justify-center  items-center">
                     {results.map((item,index)=>{
-                        return <PlaylistComponent info={item} key={index} AddSong={handlePlaylistClick(item._id)}/>
+                        return <PlaylistComponent info={item} key={index} handlePlaylistClick={handlePlaylistClick}/>
                     })}
                 </div>
             </div>
@@ -42,13 +44,14 @@ const AddSongToPlaylist=({closeModal,addsongtoPlaylist})=>{
 }
 
 
-const PlaylistComponent=({info,addsongtoPlaylist})=>{
+const PlaylistComponent=({info,handlePlaylistClick})=>{
     const handleClick = () =>{
-        addsongtoPlaylist(info._id);
+        console.log("jij");
+        handlePlaylistClick(info._id);
     }
 
     return (
-        <div className="bg-gray-800 bg-opacity-70 rounded-sm flex w-full items-center space-x-4 p-3 hover:bg-opacity-80 cursor-pointer hover:bg-gray-700" onClick={()=>handleClick}>
+        <div className="bg-gray-800 bg-opacity-70 rounded-sm flex w-full items-center space-x-4 p-3 hover:bg-opacity-80 cursor-pointer hover:bg-gray-700" onClick={handleClick}>
             <div>
                 <img src={info.imgurl} className="w-10 h-10 rounded" alt="Thumbnail"/>
             </div>

@@ -28,6 +28,7 @@ const LoggedinContainer=({children,curActScreen})=>{
         })
 
         console.log(response.data);
+        console.log("see",response._id,response.data._id);
         if(response.data._id){
             setAddtoPlaylistModal(false);
         }
@@ -139,7 +140,7 @@ const LoggedinContainer=({children,curActScreen})=>{
             </div>
             </div>
         </nav>
-        <div className='content p-8 pt-2 overflow-auto'>
+        <div className='content p-8 pt-2 overflow-auto bg-black'>
             {children}
         </div>
         <div className={currentSong ? "fixed bottom-0 w-full h-1/10 bg-gray-900 bg-opacity-90 text-white flex items-center px-4": ""} style={{ display: !currentSong ? 'none': '' }}  >

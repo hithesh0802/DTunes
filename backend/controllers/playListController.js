@@ -39,12 +39,13 @@ const addSongToPlaylist = async (req, res) => {
 };
 
 const getPlaylistbyId= async(req,res)=>{
-    const playlistId= req.params.playlistid;
+    const playlistId= req.params.playlistId.toString();
+    console.log(playlistId, req.params.playlistId , req.params.playlistId.toString());
     try{
-        const playlist= await Playlist.findOne({_id : playlistId});
-        if (!playlist) return res.status(404).json({ message: 'Playlist not found' });
+        const playlist= await Playlist.findById(req.params.playlistId).populate("songs");
+        if (!playlist) return res.status(200).json({ message: 'Playlist not found' });
 
-        res.status(200).json(playlist);
+        return res.status(200).json(playlist);
     }catch(error){
         res.status(500).json({ error: error.message });
     }   
