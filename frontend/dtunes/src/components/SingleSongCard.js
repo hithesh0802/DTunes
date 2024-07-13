@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import songContext from "../context/songContext";
-
+import { Icon } from "@iconify/react";
 const SingleSongCard=({info, playSound})=>{
     const {currentSong,setCurrentSong}= useContext(songContext);
     // console.log(val);
+    console.log(info.likes,info.dislikes);
 
     return(
         <div className="flex hover:bg-gray-600 hover:bg-opacity-30 p-2 rounded-sm " onClick={()=>{setCurrentSong(info)}}>
@@ -22,9 +23,21 @@ const SingleSongCard=({info, playSound})=>{
                     {info.artist}
                 </div>
             </div>
+            
             <div className="w-1/6 flex items-center justify-center text-gray-400 ">
                 <div>{info.duration}</div>
+                
                 {/* <div className="bg-white text-gray-400 flex items-center justify-center pl-3">...</div> */}
+            </div>
+            <div className="pr-5">
+                <div className="flex justify-center items-center">
+                <Icon icon="weui:like-filled" className="m-2 text-sm  text-gray-500"></Icon>
+                <span className="text-gray-500 text-sm">{info.likes}</span>
+                </div>
+                <div className="flex justify-center items-center">
+                <Icon icon="iconamoon:dislike-fill" className="m-2 text-sm  text-gray-500"></Icon>
+                <span className="text-gray-500 text-sm">{info.dislikes}</span>
+                </div>
             </div>
             </div>
         </div>

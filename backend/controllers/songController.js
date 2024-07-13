@@ -2,14 +2,16 @@ const Song = require('../models/Song');
 const upload = require('../utils/multer');
 
 const likeSong = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params.id;
+    const { liked } = req.body; 
+    console.log(req.params.id,req.body);
     try {
-        const song = await Song.findById(id);
+        const song = await Song.findById(req.params.id);
         if (!song) return res.status(404).json({ message: 'Song not found' });
 
-        song.likes += 1;
+        song.likes = liked ? song.likes + 1 : song.likes - 1;
         await song.save();
-
+        console.log(song.likes);
         res.status(200).json(song);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -17,14 +19,16 @@ const likeSong = async (req, res) => {
 };
 
 const dislikeSong = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params.id;
+    const { disliked } = req.body; 
+    console.log(req.params.id,req.body);
     try {
-        const song = await Song.findById(id);
+        const song = await Song.findById(req.params.id);
         if (!song) return res.status(404).json({ message: 'Song not found' });
 
-        song.dislikes += 1;
+        song.dislikes = disliked ? song.dislikes + 1 : song.dislikes - 1;
         await song.save();
-
+        console.log(song.dislikes);
         res.status(200).json(song);
     } catch (error) {
         res.status(500).json({ error: error.message });

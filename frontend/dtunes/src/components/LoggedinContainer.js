@@ -13,6 +13,9 @@ import AddSongToPlaylist from '../modals/addtoPlaylistmodal';
 const LoggedinContainer=({children,curActScreen})=>{
     const [playlistModalopen,setPlaylistModalopen]= useState(false);
     const [addtoplaylistModal,setAddtoPlaylistModal]= useState(false);
+    // const [liked,setIsLiked]= useState(false);
+    // const [disliked,setIsdisLiked]= useState(false);
+    
     const API_URL= 'http://localhost:5000/api';
 
     const addsongtoPlaylist = async (Playlistid) => {
@@ -36,13 +39,19 @@ const LoggedinContainer=({children,curActScreen})=>{
 
     const {
         currentSong,
+        liked,
+        setIsLiked,
+        disliked,
+        setIsdisLiked,
         setCurrentSong,
         soundPlayed,
         setSoundPlayed,
         isPaused,
         setIsPaused,
+        
     } = useContext(songContext);
 
+    console.log(liked,disliked);
     // const {} =useContext(songContext);
     const firstUpdate= useRef(true);
     // const [soundPlayed,setSoundPlayed]= useState(null);
@@ -98,6 +107,51 @@ const LoggedinContainer=({children,curActScreen})=>{
             setIsPaused(true);
         }
     }
+
+    const changeLiked = async () => {
+        if (!currentSong) return;  
+        const token = localStorage.getItem("token");
+        try {
+            const response = await axios.put(`${API_URL}/songs/${currentSong._id}/likes`, {
+                liked: !liked
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log(response.data, liked);
+            setIsLiked(!liked);
+            if(disliked){
+                setIsdisLiked(false);
+            }
+        } catch (error) {
+            console.error("Error updating likes:", error);
+        }
+    };
+
+    const changeddisLiked = async () => {
+        if (!currentSong) return;  
+        const token = localStorage.getItem("token");
+        try {
+            const response = await axios.put(`${API_URL}/songs/${currentSong._id}/dislikes`, {
+                disliked: !disliked
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log(response.data, disliked);
+            setIsdisLiked(!disliked);
+            if(liked){
+                setIsLiked(true);
+            }
+        } catch (error) {
+            console.error("Error updating dislikes:", error);
+        }
+    };
+
     console.log(currentSong,"hi");
     return(
         <div className="overflow-auto" style={{ backgroundColor: '#070D04' }}>
@@ -164,7 +218,8 @@ const LoggedinContainer=({children,curActScreen})=>{
             </div>
             <div className='w-1/4 flex justify-end items-center pr-4 space-x-3 '>
                 <Icon icon="ic:round-playlist-add" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white' onClick={()=>{setAddtoPlaylistModal(true)}}></Icon>
-                <Icon icon="ph:heart-bold" className='m-4 text-2xl cursor-pointer text-gray-700 hover:text-white'></Icon>
+                <Icon icon="weui:like-filled" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${liked ? "text-red-600" : "text-gray-700"}`} onClick={()=>{changeLiked()}} style={{ color: liked ? "red" : "gray" }}></Icon>
+                <Icon icon="iconamoon:dislike-fill" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${disliked ? "text-red-900" : "text-gray-700"}`} onClick={()=>{changeddisLiked()}} style={{ color: disliked ? "maroon" : "gray" }}></Icon>
             </div>
         </div> 
     </div>

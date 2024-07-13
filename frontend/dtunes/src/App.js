@@ -18,13 +18,16 @@ const App = () => {
     const [currentSong,setCurrentSong]= useState("");
     const [soundPlayed,setSoundPlayed]= useState(null);
     const [isPaused,setIsPaused]=useState(true);
+    const [liked,setIsLiked]=useState(false);
+    const [disliked,setIsdisLiked]=useState(false);
+
     const token= localStorage.getItem('token');
     return (
         // <AuthProvider>
         <div className='min-h-screen w-full font-poppins'>
             <Router>
                 { token ? (
-                    <songContext.Provider value={{currentSong,setCurrentSong,soundPlayed,setSoundPlayed,isPaused,setIsPaused}}>
+                    <songContext.Provider value={{currentSong,setCurrentSong,soundPlayed,setSoundPlayed,isPaused,setIsPaused,liked,disliked,setIsdisLiked,setIsLiked}}>
                 <Routes>
                     
                         <Route path="/home" element={<Home /> } />
