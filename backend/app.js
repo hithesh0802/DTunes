@@ -8,6 +8,7 @@ const cors= require('cors');
 const authRoutes = require('./routes/auth');
 const songRoutes = require('./routes/songs');
 const playlistRoutes = require('./routes/playlist');
+const userRoutes= require('./routes/user');
 const PORT=  5000;
 const session = require('express-session');
 const path= require('path');
@@ -39,6 +40,7 @@ app.use(session({
 app.use('/api/auth', authRoutes);
 app.use('/api/songs', songRoutes);
 app.use('/api/playlists', playlistRoutes);
+app.use('/api/user',userRoutes);
 // app.use('/api/users', userRoutes);
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
