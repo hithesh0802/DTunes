@@ -57,7 +57,7 @@ const UploadSong = () => {
   };
 
   return (
-    <div className="min-h-screen text-white overflow-auto bg-black bg-opacity-90 " >
+    <div className="min-h-screen text-white overflow-auto bg-black " >
       <LoggedinContainer curActScreen={"Upload Song"}>
 
       <div className=" bg-black container mx-auto p-4">

@@ -13,8 +13,7 @@ import AddSongToPlaylist from '../modals/addtoPlaylistmodal';
 const LoggedinContainer=({children,curActScreen})=>{
     const [playlistModalopen,setPlaylistModalopen]= useState(false);
     const [addtoplaylistModal,setAddtoPlaylistModal]= useState(false);
-    // const [liked,setIsLiked]= useState(false);
-    // const [disliked,setIsdisLiked]= useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
     
     const API_URL= 'http://localhost:5000/api';
 
@@ -69,7 +68,7 @@ const LoggedinContainer=({children,curActScreen})=>{
         }
 
         changeSong(currentSong.url);
-
+        checkifLiked();
     },[currentSong && currentSong.url]);
 
     const playSound=()=>{
@@ -111,24 +110,49 @@ const LoggedinContainer=({children,curActScreen})=>{
     const changeLiked = async () => {
         if (!currentSong) return;  
         const token = localStorage.getItem("token");
+        console.log(liked,`${API_URL}/user/${currentSong._id}/liked`, `Bearer ${token}`);
         try {
-            const response = await axios.put(`${API_URL}/songs/${currentSong._id}/likes`, {
-                liked: !liked
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+            if(!liked){
+                const body={
+                    token: token
+                };
+                const response = await axios.post(`${API_URL}/user/${currentSong._id}/liked`,body, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                console.log(response.data, liked);
+                setIsLiked(!liked);
+                if(disliked){
+                    setIsdisLiked(false);
                 }
-            });
-            console.log(response.data, liked);
-            setIsLiked(!liked);
-            if(disliked){
-                setIsdisLiked(false);
-            }
+            }          
         } catch (error) {
             console.error("Error updating likes:", error);
         }
     };
+
+    const checkifLiked =async ()=>{
+        if (!currentSong) return;  
+        const token = localStorage.getItem("token");
+        console.log(liked,`${API_URL}/user/${currentSong._id}/liked`, `Bearer ${token}`);
+        try {
+                const body={
+                    token: token
+                };
+                const response = await axios.post(`${API_URL}/user/${currentSong._id}/checkifLiked`,body, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                console.log(response.data, liked,"hola");
+                setIsLiked(response.data);        
+        } catch (error) {
+            console.error("Error updating likes:", error);
+        }
+    }
 
     const changeddisLiked = async () => {
         if (!currentSong) return;  
@@ -188,9 +212,29 @@ const LoggedinContainer=({children,curActScreen})=>{
                 <li className="nav-item">
                     <IconText iconName={"material-symbols:upload"} displayText={"Upload Song"} targetLink={"/upload"} active={curActScreen==='Upload Song'} />
                 </li>
+                <li className="nav-item">
+                    <IconText iconName={"mdi:cards-heart"} displayText={"Liked Songs"} targetLink={"/LikedSongs"} active={curActScreen==='Liked Songs'} />
+                </li>
                 </ul>
                 <IconText onClick={()=>{setPlaylistModalopen(true)}} iconName={"material-symbols:add-box"} displayText={"Create Playlist"}/>
-                <IconText iconName={"mdi:cards-heart"} displayText={"Liked Songs"}/>
+                <div >
+                        <button
+                            className="text-white focus:outline-none ml-6 mt-1"
+                            type="button"
+                            onClick={() => setDropdownOpen(!dropdownOpen)}>
+                            <Icon icon="feather:menu" className="text-2xl"></Icon>
+                        </button>
+                        {dropdownOpen && (
+                            <div className="bg-blue-950 bg-opacity-80 text-white p-4 absolute right-0 mt-4 w-48">
+                                <ul>
+                                    <li className="py-2"><Link to="/profile">Profile</Link></li>
+                                    <li className="py-2"><Link to="/">Friends</Link></li>
+                                    <li className="py-2"><Link to="/">Settings</Link></li>
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                {/* <IconText iconName={"mdi:cards-heart"} displayText={"Liked Songs"}/> */}
             </div>
             </div>
         </nav>

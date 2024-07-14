@@ -81,9 +81,9 @@ const Home = () => {
       <div className="container mx-auto p-6">
     
       <div className=" p-6 rounded-lg shadow-lg bg-black" >
-        <h2 className="text-2xl font-bold mb-4">Playlists</h2>
+        <h2 className="text-2xl font-bold mb-4">Top Picks for You</h2>
         <PlayListView key={'a'} titletext="Focus" focusCardsData={focusCardsData}></PlayListView>
-        <PlayListView key={'b'} titletext="Spotify Playlists" focusCardsData={focusCardsData}></PlayListView>
+        <PlayListView key={'b'} titletext="Trending Now" focusCardsData={focusCardsData}></PlayListView>
         <PlayListView key={'c'} titletext="Sound of India" focusCardsData={focusCardsData}></PlayListView>
         <div className="space-y-4">
           {playlists.map((playlist) => (
@@ -94,7 +94,7 @@ const Home = () => {
         </div>
       </div>
       
-    <div className=" p-6 rounded-lg shadow-lg" style={{backgroundColor: "#2A2B30"}}>
+    {/* <div className=" p-6 rounded-lg shadow-lg" style={{backgroundColor: "#2A2B30"}}>
         <h2 className="text-2xl font-bold mb-4">Songs</h2>
         <div className="space-y-4">
           {songs.map((song) => (
@@ -107,7 +107,7 @@ const Home = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
       
     {/* <div className=" p-6 rounded-lg shadow-lg mt-6" style={{backgroundColor: "#2A2B30"}}>
       <h2 className="text-2xl font-bold mb-4">Create Playlist</h2>

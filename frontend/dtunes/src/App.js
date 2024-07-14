@@ -13,6 +13,8 @@ import { useContext } from 'react';
 import SearchPage  from './pages/Search';
 import MyPlaylists from './pages/MyPlaylists';
 import SinglePlaylistView from './pages/SinglePlaylistView';
+import LikedSongs from './pages/LikedSongs';
+import Profile from './pages/Profile';
 
 const App = () => {
     const [currentSong,setCurrentSong]= useState("");
@@ -36,6 +38,8 @@ const App = () => {
                         <Route path="/search" element={<SearchPage></SearchPage>}></Route>
                         <Route path="/playlists" element={<MyPlaylists></MyPlaylists>}></Route>
                         <Route path="/playlists/:playlistId" element={<SinglePlaylistView></SinglePlaylistView>}></Route>
+                        <Route path="/LikedSongs" element={<LikedSongs></LikedSongs>} ></Route>
+                        <Route path='/profile' element={<Profile></Profile>}></Route>
                 </Routes>
                 </songContext.Provider>
                 ) : (
