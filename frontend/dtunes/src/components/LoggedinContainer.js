@@ -255,15 +255,17 @@ const LoggedinContainer=({children,curActScreen})=>{
             <div className='flex  items-center w-1/2 bg-opacity-90'>
               {/* <Icon icon="ph:shuffle-fill" className='m-4 text-2xl cursor-pointer text-gray-700 hover:text-white'></Icon>
               <Icon icon="mdi:skip-previous-outline" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white' ></Icon> */}
-              <Icon icon={ isPaused? "ic:baseline-play-circle" : "ic:baseline-pause-circle"} className='m-4 text-4xl cursor-pointer text-gray-700 hover:text-white' onClick={()=>{togglePLayPause();}}></Icon>
+              {/* <Icon icon={ isPaused? "ic:baseline-play-circle" : "ic:baseline-pause-circle"} className='m-4 text-4xl cursor-pointer text-gray-700 hover:text-white' onClick={()=>{togglePLayPause();}}></Icon> */}
               {/* <Icon icon="mdi:skip-next-outline" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white'></Icon>
               <Icon icon="ic:twotone-repeat" className='m-4 text-2xl cursor-pointer text-gray-700 hover:text-white'></Icon> */}
             </div>
             </div>
             <div className='w-1/4 flex justify-end items-center pr-4 space-x-3 '>
+            <Icon icon={ isPaused? "ic:baseline-play-circle" : "ic:baseline-pause-circle"} className='m-4 text-4xl cursor-pointer text-gray-700 hover:text-white' onClick={()=>{togglePLayPause();}}></Icon>
                 <Icon icon="ic:round-playlist-add" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white' onClick={()=>{setAddtoPlaylistModal(true)}}></Icon>
                 <Icon icon="weui:like-filled" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${liked ? "text-red-600" : "text-gray-700"}`} onClick={()=>{changeLiked()}} style={{ color: liked ? "red" : "gray" }}></Icon>
-                <Icon icon="iconamoon:dislike-fill" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${disliked ? "text-red-900" : "text-gray-700"}`} onClick={()=>{changeddisLiked()}} style={{ color: disliked ? "maroon" : "gray" }}></Icon>
+                {/* <Icon icon="iconamoon:dislike-fill" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${disliked ? "text-red-900" : "text-gray-700"}`} onClick={()=>{changeddisLiked()}} style={{ color: disliked ? "maroon" : "gray" }}></Icon> */}
+                
             </div>
         </div> 
     </div>

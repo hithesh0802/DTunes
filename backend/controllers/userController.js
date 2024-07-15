@@ -1,6 +1,7 @@
 const User= require('../models/User');
 const Song= require('../models/Song');
 const jwt=require('jsonwebtoken');
+const ytdl = require('ytdl-core');
 
 const postLiked= async(req,res)=>{
     const {id}= req.params.id;
@@ -86,4 +87,24 @@ const getdetails=async(req,res)=>{
     }
 }
 
-module.exports={postLiked,checkifLiked,getLikedSongs,getdetails};
+const geturl=async(req,res)=>{
+    try {
+        const videoUrl = 'https://www.youtube.com/watch?v=Yl_thbk40A0'; 
+        
+        // Validate URL (optional step)
+        if (!ytdl.validateURL(videoUrl)) {
+          return res.status(400).json({ error: 'Invalid YouTube URL' });
+        }
+    
+        // Extract audio URL using ytdl-core
+        const info = await ytdl.getInfo(videoUrl);
+        const audioUrl = info.formats.find(format => format.hasAudio).url;
+    
+        res.json({ audioUrl });
+      } catch (error) {
+        console.error('Error extracting audio URL:', error);
+        res.status(500).json({ error: 'Failed to fetch audio URL from YouTube' });
+      }
+}
+
+module.exports={postLiked,checkifLiked,getLikedSongs,getdetails,geturl};
