@@ -229,7 +229,7 @@ const LoggedinContainer=({children,curActScreen})=>{
                                 <ul>
                                     <li className="py-2"><Link to="/profile">Profile</Link></li>
                                     <li className="py-2"><Link to="/">Friends</Link></li>
-                                    <li className="py-2"><Link to="/">Settings</Link></li>
+                                    <li className="py-2"><Link to="/logout">Logout</Link></li>
                                 </ul>
                             </div>
                         )}
@@ -253,11 +253,11 @@ const LoggedinContainer=({children,curActScreen})=>{
       </div>
         <div className={'w-1/2 flex justify-center items-center h-full bg-gray-900'} style={{ display: !currentSong ? 'none' : '' }}>
             <div className='flex  items-center w-1/2 bg-opacity-90'>
-              <Icon icon="ph:shuffle-fill" className='m-4 text-2xl cursor-pointer text-gray-700 hover:text-white'></Icon>
-              <Icon icon="mdi:skip-previous-outline" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white' ></Icon>
+              {/* <Icon icon="ph:shuffle-fill" className='m-4 text-2xl cursor-pointer text-gray-700 hover:text-white'></Icon>
+              <Icon icon="mdi:skip-previous-outline" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white' ></Icon> */}
               <Icon icon={ isPaused? "ic:baseline-play-circle" : "ic:baseline-pause-circle"} className='m-4 text-4xl cursor-pointer text-gray-700 hover:text-white' onClick={()=>{togglePLayPause();}}></Icon>
-              <Icon icon="mdi:skip-next-outline" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white'></Icon>
-              <Icon icon="ic:twotone-repeat" className='m-4 text-2xl cursor-pointer text-gray-700 hover:text-white'></Icon>
+              {/* <Icon icon="mdi:skip-next-outline" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white'></Icon>
+              <Icon icon="ic:twotone-repeat" className='m-4 text-2xl cursor-pointer text-gray-700 hover:text-white'></Icon> */}
             </div>
             </div>
             <div className='w-1/4 flex justify-end items-center pr-4 space-x-3 '>

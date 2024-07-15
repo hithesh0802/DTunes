@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes,Navigate } from 'react-router-dom';
 // import { AuthProvider } from './context/authContext';
 import Home from './pages/Home';
 import Register from './pages/Register';
@@ -15,6 +15,8 @@ import MyPlaylists from './pages/MyPlaylists';
 import SinglePlaylistView from './pages/SinglePlaylistView';
 import LikedSongs from './pages/LikedSongs';
 import Profile from './pages/Profile';
+import Logout from './pages/Logout';
+import { useState,useEffect } from 'react';
 
 const App = () => {
     const [currentSong,setCurrentSong]= useState("");
@@ -23,7 +25,31 @@ const App = () => {
     const [liked,setIsLiked]=useState(false);
     const [disliked,setIsdisLiked]=useState(false);
 
-    const token= localStorage.getItem('token');
+    const [token, setToken] = useState(localStorage.getItem('token'));
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        if (storedToken) {
+            setToken(storedToken);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!token) {
+            localStorage.removeItem('token');
+        }
+    }, [token]);
+
+    const handleLogin = (newToken) => {
+        localStorage.setItem('token', newToken);
+        setToken(newToken);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setToken(null);
+    };
+
     return (
         // <AuthProvider>
         <div className='min-h-screen w-full font-poppins'>
@@ -40,13 +66,16 @@ const App = () => {
                         <Route path="/playlists/:playlistId" element={<SinglePlaylistView></SinglePlaylistView>}></Route>
                         <Route path="/LikedSongs" element={<LikedSongs></LikedSongs>} ></Route>
                         <Route path='/profile' element={<Profile></Profile>}></Route>
+                        <Route path='/logout' element={<Logout onLogout={handleLogout} />} />
+                        <Route path="*" element={<Navigate to="/home" />} />
                 </Routes>
                 </songContext.Provider>
                 ) : (
                     <Routes>
                         <Route path="/" element={<Enter></Enter>} ></Route>
                         <Route path="/register" element={<Register/>} />
-                        <Route path="/login" element={<Login/>} />
+                        <Route path="/login" element={<Login onLogin={handleLogin}/>} />
+                        <Route path="*" element={<Navigate to="/login" />} />
                     </Routes>
                 )
                 }

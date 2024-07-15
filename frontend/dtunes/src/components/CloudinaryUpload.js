@@ -24,7 +24,7 @@ const CloudinaryUpload = ({setUrl, setUploadedfilename}) => {
   };
 
   return (
-    <button className="bg-white text-black rounded-lg p-3 font-semibold" onClick={uploadImageWidget}>
+    <button className="bg-white text-black rounded-lg p-3 font-semibold hover:bg-yellow-500" onClick={uploadImageWidget}>
       Upload Song
     </button>
   );

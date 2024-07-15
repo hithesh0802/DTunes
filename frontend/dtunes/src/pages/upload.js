@@ -62,7 +62,7 @@ const UploadSong = () => {
 
       <div className=" bg-black container mx-auto p-4">
           <div>
-            <label className="block text-blue-400 text-lg font-medium mb-2">Title</label>
+            <label className="block text-yellow-300 text-lg font-medium mb-2">Title</label>
             <TextInput
                 placeholder="Title"
                 value={title}
@@ -70,7 +70,7 @@ const UploadSong = () => {
             />
           </div>
           <div>
-            <label className="block text-blue-400 text-lg font-medium mb-2">Artist</label>
+            <label className="block text-yellow-300 text-lg font-medium mb-2">Artist</label>
             <TextInput
                 placeholder="Artist"
                 value={artist}
@@ -78,7 +78,7 @@ const UploadSong = () => {
             />
           </div>
           <div>
-            <label className="block text-blue-400 text-lg font-medium mb-2">Description</label>
+            <label className="block text-yellow-300 text-lg font-medium mb-2">Description</label>
             <TextInput
                 placeholder="Description"
                 value={description}
@@ -86,7 +86,7 @@ const UploadSong = () => {
             />
           </div>
           <div>
-            <label className="block text-blue-400 text-lg font-medium mb-2">Thumbnail (Image) url</label>
+            <label className="block text-yellow-300 text-lg font-medium mb-2">Thumbnail (Image) url</label>
             <TextInput
                 placeholder="Thumbnail image Url"
                 value={imgurl}
@@ -95,16 +95,16 @@ const UploadSong = () => {
           </div>
           
           <div>
-            <label className="block text-blue-400 text-lg font-medium mb-2">Duration</label>
+            <label className="block text-yellow-300 text-lg font-medium mb-2">Duration</label>
             <TextInput
                 placeholder="Minutes: Seconds"
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)} 
             />
           </div>
-          <div className='pt-5'>{
+          <div className='pt-5 '>{
             uploadedfilename ? 
-            <div className='bg-white text-black rounded-full p-3 w-1/3 font-semibold'>
+            <div className='bg-white text-black rounded-full p-3 w-1/3 font-semibold '>
               {uploadedfilename.substring(0,20)}...
               </div>
               : 
