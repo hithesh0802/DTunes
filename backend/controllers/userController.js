@@ -81,7 +81,7 @@ const getdetails=async(req,res)=>{
     const currUser=await User.findById(req.user.id);
     try{
         console.log({username: currUser.username , email: currUser.email, created: currUser.createdAt});
-        return res.status(200).json({username: currUser.username , email: currUser.email, created: currUser.createdAt});
+        return res.status(200).json({username: currUser.username , email: currUser.email, created: currUser.createdAt, artist:currUser.artist});
     }catch(error){
         return res.status(500).json({error: error.message});
     }

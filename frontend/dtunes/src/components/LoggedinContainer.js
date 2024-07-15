@@ -14,7 +14,7 @@ const LoggedinContainer=({children,curActScreen})=>{
     const [playlistModalopen,setPlaylistModalopen]= useState(false);
     const [addtoplaylistModal,setAddtoPlaylistModal]= useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    
+    const [artist,setArtist]=useState(true);
     const API_URL= 'http://localhost:5000/api';
 
     const addsongtoPlaylist = async (Playlistid) => {
@@ -70,6 +70,21 @@ const LoggedinContainer=({children,curActScreen})=>{
         changeSong(currentSong.url);
         checkifLiked();
     },[currentSong && currentSong.url]);
+
+    useEffect(()=>{
+        const token= localStorage.getItem('token');
+        const getData= async()=>{
+            const response = await axios.get(`${API_URL}/user/getdetails`,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                  },
+            })
+            setArtist(response.data.artist);
+            console.log(response.data,response.data.artist);         
+        }    
+        getData();
+    },[]);
 
     const playSound=()=>{
         if(!soundPlayed){
@@ -209,14 +224,17 @@ const LoggedinContainer=({children,curActScreen})=>{
                 <li className="nav-item">
                     <IconText iconName={"material-symbols:search-rounded"} displayText={"Search"} targetLink={"/search"} active={curActScreen==='Search'} />
                 </li>
-                <li className="nav-item">
+                {artist && <li className="nav-item">
                     <IconText iconName={"material-symbols:upload"} displayText={"Upload Song"} targetLink={"/upload"} active={curActScreen==='Upload Song'} />
                 </li>
+                }
+                
                 <li className="nav-item">
                     <IconText iconName={"mdi:cards-heart"} displayText={"Liked Songs"} targetLink={"/LikedSongs"} active={curActScreen==='Liked Songs'} />
                 </li>
                 </ul>
-                <IconText onClick={()=>{setPlaylistModalopen(true)}} iconName={"material-symbols:add-box"} displayText={"Create Playlist"}/>
+                {artist && <IconText onClick={()=>{setPlaylistModalopen(true)}} iconName={"material-symbols:add-box"} displayText={"Create Playlist"}/>}
+                
                 <div >
                         <button
                             className="text-white focus:outline-none ml-6 mt-1"

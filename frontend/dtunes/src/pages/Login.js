@@ -11,11 +11,12 @@ const Login = ({ onLogin }) => {
     const [password,setPassword]=useState('');
     const navigate= useNavigate();
     const [error,setError]=useState('');
+    const [artist, setArtist] = useState(true);
 
     const handleSubmit = async e => {
         e.preventDefault();
         try{
-        const response= await loginUser({email,password});
+        const response= await loginUser({email,password,artist});
         console.log('API response:', response, response.token); // Log the response for debugging
         onLogin(response.token);
         localStorage.setItem('token', response.token);
@@ -25,6 +26,11 @@ const Login = ({ onLogin }) => {
             setError('Login error: Please enter correct password or enter a new email/username');
             throw error;
         }
+    };
+
+
+    const handleRadioChange = (e) => {
+      setArtist(e.target.value === 'true'); // Convert string to boolean
     };
 
     return (
@@ -60,6 +66,31 @@ const Login = ({ onLogin }) => {
                 required
                 className="w-full px-3 py-2 mt-1 text-gray-900 bg-gray-100 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+        </div>
+        <div className="mb-6">
+          <label className="block text-sm font-medium">Are you an artist?</label>
+          <div className="flex items-center mt-2">
+              <input
+                  type="radio"
+                  id="artistYes"
+                  name="artist"
+                  value="true"
+                  checked={artist}
+                  onChange={handleRadioChange}
+                  className="mr-2"
+              />
+              <label htmlFor="artistYes" className="mr-4">Yes</label>
+              <input
+                  type="radio"
+                  id="artistNo"
+                  name="artist"
+                  value="false"
+                  checked={!artist}
+                  onChange={handleRadioChange}
+                  className="mr-2"
+              />
+              <label htmlFor="artistNo">No</label>
+          </div>
         </div>
         <button
             type="submit"
