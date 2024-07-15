@@ -7,7 +7,8 @@ const UserSchema = new mongoose.Schema({
     password: { type: String, required: true },
     likedSongs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Song' }],
     playlists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playlist' }],
-    artist: { type: Boolean, default: true }
+    artist: { type: Boolean, default: true },
+    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 }, { timestamps: true });
 
 // UserSchema.pre('save', async function(next) {

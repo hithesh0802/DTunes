@@ -9,12 +9,13 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [artist, setArtist] = useState(true);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-          const response = await registerUser({ username, email, password });
+          const response = await registerUser({ username, email, password ,artist});
           console.log('API response:', response, response.token); // Log the response for debugging
           localStorage.setItem('token', response.token);
           navigate('/login');
@@ -22,6 +23,10 @@ const Register = () => {
           console.log('Registration error:', error);
           setError('User with the same username/email already exists.'); // Handle registration errors
       }
+  };
+
+  const handleRadioChange = (e) => {
+    setArtist(e.target.value === 'true'); // Convert string to boolean
   };
 
   return (
@@ -70,6 +75,31 @@ const Register = () => {
                           required
                           className="w-full px-3 py-2 mt-1 text-gray-900 bg-gray-700 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
+                  </div>
+                  <div className="mb-6">
+                    <label className="block text-sm font-medium">Are you an artist?</label>
+                    <div className="flex items-center mt-2">
+                        <input
+                            type="radio"
+                            id="artistYes"
+                            name="artist"
+                            value="true"
+                            checked={artist}
+                            onChange={handleRadioChange}
+                            className="mr-2"
+                        />
+                        <label htmlFor="artistYes" className="mr-4">Yes</label>
+                        <input
+                            type="radio"
+                            id="artistNo"
+                            name="artist"
+                            value="false"
+                            checked={!artist}
+                            onChange={handleRadioChange}
+                            className="mr-2"
+                        />
+                        <label htmlFor="artistNo">No</label>
+                    </div>
                   </div>
                   <p className="text-red-500 text-sm mb-4">{error}</p>
                   <button
