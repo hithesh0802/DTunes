@@ -17,6 +17,7 @@ import LikedSongs from './pages/LikedSongs';
 import Profile from './pages/Profile';
 import Logout from './pages/Logout';
 import { useState,useEffect } from 'react';
+import FriendRequests from './pages/friends';
 
 const App = () => {
     const [currentSong,setCurrentSong]= useState("");
@@ -68,6 +69,7 @@ const App = () => {
                         <Route path="/LikedSongs" element={<LikedSongs></LikedSongs>} ></Route>
                         <Route path='/profile' element={<Profile></Profile>}></Route>
                         <Route path='/logout' element={<Logout onLogout={handleLogout} />} />
+                        <Route path='/friends' element={<FriendRequests></FriendRequests>}></Route>
                         <Route path="*" element={<Navigate to="/home" />} />
                 </Routes>
                 </songContext.Provider>

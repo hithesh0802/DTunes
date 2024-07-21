@@ -8,7 +8,8 @@ const UserSchema = new mongoose.Schema({
     likedSongs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Song' }],
     playlists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playlist' }],
     artist: { type: Boolean, default: true },
-    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    friendRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 }, { timestamps: true });
 
 // UserSchema.pre('save', async function(next) {

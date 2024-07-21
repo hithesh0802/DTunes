@@ -7,8 +7,7 @@ const SingleSongCard=({info, playSound})=>{
     const { currentSong, setCurrentSong, togglePlayPause, isPaused } = useContext(songContext);
     const handlePlayPause = () => {
           setCurrentSong(info);
-          togglePlayPause();
-        
+          togglePlayPause();       
       };
 
     return(
@@ -30,7 +29,7 @@ const SingleSongCard=({info, playSound})=>{
             </div>
             
             <div className="w-1/6 flex items-center justify-center text-gray-400 ">
-                <div>{info.duration}</div>
+                <div>{info.duration ||"0.29"}</div>
                 
                 {/* <div className="bg-white text-gray-400 flex items-center justify-center pl-3">...</div> */}
             </div>

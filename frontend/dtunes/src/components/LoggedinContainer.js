@@ -246,7 +246,7 @@ const LoggedinContainer=({children,curActScreen})=>{
                             <div className="bg-blue-950 bg-opacity-80 text-white p-4 absolute right-0 mt-4 w-48">
                                 <ul>
                                     <li className="py-2"><Link to="/profile">Profile</Link></li>
-                                    <li className="py-2"><Link to="/">Friends</Link></li>
+                                    <li className="py-2"><Link to="/friends">Friends</Link></li>
                                     <li className="py-2"><Link to="/logout">Logout</Link></li>
                                 </ul>
                             </div>
