@@ -41,6 +41,10 @@ const Profile=()=>{
                 <div className="mb-4">
                     <p className="text-xl">Created At: <span className="font-semibold">{created}</span></p>
                 </div>
+                <div className="mb-4">
+                    <p className="text-xl"><span className="font-semibold">{results.artist ? 'Artist Account' : 'Normal Account'}</span></p>
+                </div>
+                
                 <div className="mt-8">
                     <Link to="/home" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Go Back

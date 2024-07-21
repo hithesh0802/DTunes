@@ -110,12 +110,28 @@ const getUserbyUserName= async(req,res)=>{
     console.log(req.query.q,username);
     try{
         const users=await User.find({username: req.query.q});
-        return res.status(200).json(users);
-        
+        return res.status(200).json(users);      
     }catch (error) {
         console.error('Error extracting users:', error);
         res.status(500).json({ error: 'error fetching users' });
-      }
+    }
 }
 
-module.exports={postLiked,checkifLiked,getLikedSongs,getdetails,geturl,getUserbyUserName};
+const getFriends= async(req,res)=>{
+    try{
+        const user = await User.findById(req.user.id).populate('friends');
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const friends = user.friends;
+
+    return res.status(200).json(friends);
+    }catch (error) {
+        console.error('Error extracting users:', error);
+        res.status(500).json({ error: 'error fetching users' });
+    }
+}
+
+module.exports={postLiked,checkifLiked,getLikedSongs,getdetails,geturl,getFriends,getUserbyUserName};

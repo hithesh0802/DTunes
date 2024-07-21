@@ -1,6 +1,6 @@
 const Playlist = require('../models/PlayList');
 const Song = require('../models/Song');
-
+const User=require('../models/User');
 const createPlaylist = async (req, res) => {
     const { name, imgurl,songs } = req.body;
     const userId = req.user.id;
@@ -52,10 +52,29 @@ const getPlaylistbyId= async(req,res)=>{
 }
 
 const getMyPlaylists = async(req,res)=>{
+    const userId = req.user.id;
+    const songId = req.body.songId;
     try{
+        const user = await User.findById(req.user.id).populate('likedSongs');
+        if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+        }
+        let likedSongsPlaylist = await Playlist.findOne({ user: userId, name: 'Liked Songs' });
+        if (!likedSongsPlaylist) {
+        likedSongsPlaylist = new Playlist({
+            name: 'Liked Songs',
+            isPrivate: true,
+            user: userId,
+            songs: [],
+            imgurl: "https://plus.unsplash.com/premium_photo-1683727986626-355d473cb936?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        });
+        }
+        likedSongsPlaylist.songs = user.likedSongs.map(song => song._id);
+        await likedSongsPlaylist.save();
+
         const playlists= await Playlist.find({user: req.user.id});
         if (!playlists) return res.status(200).json({ message: 'You currently have no playlists ' });
-
+        // playlists.push(likedSongsPlaylist);
         return res.status(200).json(playlists);
     }catch(error){
         res.status(500).json({ error: error.message });
