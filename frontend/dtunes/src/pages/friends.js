@@ -4,6 +4,7 @@ import LoggedinContainer from '../components/LoggedinContainer';
 
 const FriendRequests = ({ userId }) => {
   const [friendRequests, setFriendRequests] = useState([]);
+  const [friends,setFriends]=useState([]);
   const [currUser,setCurrUser]= useState([]);
   const API_URL = 'http://localhost:5000/api';
 
@@ -20,20 +21,27 @@ const FriendRequests = ({ userId }) => {
         console.error('Error fetching friend requests:', error);
       }
     };
-
     const token= localStorage.getItem('token');
-      const getData= async()=>{
-          const response = await axios.get(`${API_URL}/user/getdetails`,{
-              headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${token}`
-                },
-          })
-          setCurrUser(response.data);          
-      }    
-    
+    const getFriends= async()=>{
+      const response = await axios.get(`${API_URL}/user/getfriends`,{
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+    })
+        setFriends(response.data);
+    }
+    const getData= async()=>{
+        const response = await axios.get(`${API_URL}/user/getdetails`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+        })
+        setCurrUser(response.data);          
+    }
+    getFriends();
     getData();
-
     fetchFriendRequests();
   }, []);
 
@@ -82,6 +90,9 @@ const FriendRequests = ({ userId }) => {
           <li className="text-gray-400">No friend requests found.</li>
         )}
       </ul>
+      <div>
+
+      </div>
 
       {/* <h3 className="text-xl font-semibold mt-6 mb-4">Send Friend Request</h3>
       <div className="flex space-x-3">

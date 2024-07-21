@@ -54,7 +54,7 @@ const App = () => {
 
     return (
         // <AuthProvider>
-        <div className='min-h-screen w-full font-poppins'>
+        <div className='min-h-screen w-full font-poppins bg-gray-800'>
             <Router>
                 { token ? (
                     <songContext.Provider value={{currentSong,setCurrentSong,soundPlayed,setSoundPlayed,isPaused,setIsPaused,liked,disliked,setIsdisLiked,setIsLiked}}>
