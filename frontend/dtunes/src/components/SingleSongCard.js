@@ -1,26 +1,31 @@
 import { useContext } from "react";
 import songContext from "../context/songContext";
 import { Icon } from "@iconify/react";
+import { useState } from "react";
 const SingleSongCard=({info, playSound})=>{
-    const {currentSong,setCurrentSong}= useContext(songContext);
-    // console.log(val);
     console.log(info.likes,info.dislikes);
+    const { currentSong, setCurrentSong, togglePlayPause, isPaused } = useContext(songContext);
+    const handlePlayPause = () => {
+          setCurrentSong(info);
+          togglePlayPause();
+        
+      };
 
     return(
-        <div className="flex hover:bg-gray-600 hover:bg-opacity-30 p-2 rounded-sm " onClick={()=>{setCurrentSong(info)}}>
+        <div className="flex hover:bg-gray-600 hover:bg-opacity-30 p-2 rounded-sm " onClick={handlePlayPause}>
             <div className="w-12 h-12 bg-cover bg-center"
             style={{
-                backgroundImage: `url("${info.imgurl}")`
+                backgroundImage: `url("${info.imgurl || info.image_url}")`
             }}
             >
             </div>
             <div className=" flex w-full ">
             <div className="text-white flex justify-center flex-col pl-4 w-5/6">
                 <div className="cursor-pointer hover:underline">
-                    {info.title}
+                    {info.title || info.track_name}
                 </div>
                 <div className="text-xs text-gray-400 hover:underline">
-                    {info.artist}
+                    {info.artist || info.artist_name}
                 </div>
             </div>
             

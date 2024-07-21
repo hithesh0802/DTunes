@@ -67,7 +67,7 @@ const LoggedinContainer=({children,curActScreen})=>{
             return ;
         }
 
-        changeSong(currentSong.url);
+        changeSong(currentSong.preview_url || currentSong.url);
         checkifLiked();
     },[currentSong && currentSong.url]);
 
@@ -91,7 +91,7 @@ const LoggedinContainer=({children,curActScreen})=>{
          return;
         } 
          soundPlayed.play();
-     }
+     };
 
     const changeSong=(songSrc)=>{
         if(soundPlayed){
@@ -106,11 +106,11 @@ const LoggedinContainer=({children,curActScreen})=>{
           console.log(sound); 
           sound.play();
           setIsPaused(false);
-    }
+    };
 
     const pauseSound=()=>{
         soundPlayed.pause();
-    }
+    };
 
     const togglePLayPause=()=>{
         if(isPaused){
@@ -120,7 +120,7 @@ const LoggedinContainer=({children,curActScreen})=>{
             pauseSound();
             setIsPaused(true);
         }
-    }
+    };
 
     const changeLiked = async () => {
         if (!currentSong) return;  
@@ -261,25 +261,22 @@ const LoggedinContainer=({children,curActScreen})=>{
         </div>
         <div className={currentSong ? "fixed bottom-0 w-full h-1/10 bg-gray-900 bg-opacity-90 text-white flex items-center px-4": ""} style={{ display: !currentSong ? 'none': '' }}  >
       <div className='w-1/4 flex items-center'>
-            <img style={{ display: currentSong ? 'block' : 'none' }}  src={currentSong.imgurl}
+            <img style={{ display: currentSong ? 'block' : 'none' }}  src={currentSong.image_url ||currentSong.imgurl }
             alt=''
             className='h-14 w-14 rounded'></img>
             <div className='pl-4'>
-              <div className='text-sm hover:underline cursor-pointer'>{currentSong.title}</div>
-              <div className='text-xs text-gray-500 hover:underline cursor-pointer'>{currentSong.artist}</div>
+              <div className='text-sm hover:underline cursor-pointer'>{currentSong.title || currentSong.track_name}</div>
+              <div className='text-xs text-gray-500 hover:underline cursor-pointer'>{currentSong.artist || currentSong.artist_name}</div>
             </div>
       </div>
         <div className={'w-1/2 flex justify-center items-center h-full bg-gray-900'} style={{ display: !currentSong ? 'none' : '' }}>
             <div className='flex  items-center w-1/2 bg-opacity-90'>
-              {/* <Icon icon="ph:shuffle-fill" className='m-4 text-2xl cursor-pointer text-gray-700 hover:text-white'></Icon>
-              <Icon icon="mdi:skip-previous-outline" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white' ></Icon> */}
-              {/* <Icon icon={ isPaused? "ic:baseline-play-circle" : "ic:baseline-pause-circle"} className='m-4 text-4xl cursor-pointer text-gray-700 hover:text-white' onClick={()=>{togglePLayPause();}}></Icon> */}
-              {/* <Icon icon="mdi:skip-next-outline" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white'></Icon>
-              <Icon icon="ic:twotone-repeat" className='m-4 text-2xl cursor-pointer text-gray-700 hover:text-white'></Icon> */}
             </div>
             </div>
             <div className='w-1/4 flex justify-end items-center pr-4 space-x-3 '>
-            <Icon icon={ isPaused? "ic:baseline-play-circle" : "ic:baseline-pause-circle"} className='m-4 text-4xl cursor-pointer text-gray-700 hover:text-white' onClick={()=>{togglePLayPause();}}></Icon>
+                <button onClick={()=>{togglePLayPause()}}>
+            <Icon icon={ isPaused? "ic:baseline-play-circle" : "ic:baseline-pause-circle"} className='m-4 text-4xl cursor-pointer text-gray-700 hover:text-white' ></Icon>
+            </button>
                 <Icon icon="ic:round-playlist-add" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white' onClick={()=>{setAddtoPlaylistModal(true)}}></Icon>
                 <Icon icon="weui:like-filled" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${liked ? "text-red-600" : "text-gray-700"}`} onClick={()=>{changeLiked()}} style={{ color: liked ? "red" : "gray" }}></Icon>
                 {/* <Icon icon="iconamoon:dislike-fill" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${disliked ? "text-red-900" : "text-gray-700"}`} onClick={()=>{changeddisLiked()}} style={{ color: disliked ? "maroon" : "gray" }}></Icon> */}
