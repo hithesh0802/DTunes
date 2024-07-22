@@ -19,6 +19,7 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "cheerio": "^1.0.0-rc.12",
     "cloudinary-core": "^2.13.1",
     "cloudinary-react": "^1.8.1",
     "cors": "^2.8.5",

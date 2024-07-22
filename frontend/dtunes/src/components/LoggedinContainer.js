@@ -169,29 +169,110 @@ const LoggedinContainer=({children,curActScreen})=>{
         }
     }
 
-    const changeddisLiked = async () => {
-        if (!currentSong) return;  
-        const token = localStorage.getItem("token");
+    const fetchLyrics = async (title, artist) => {
+        const GENIUS_API_URL = 'https://api.genius.com';
+        const GENIUS_ACCESS_TOKEN = process.env.REACT_APP_GENIUS_ACCESS_TOKEN;
+      
         try {
-            const response = await axios.put(`${API_URL}/songs/${currentSong._id}/dislikes`, {
-                disliked: !disliked
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            console.log(response.data, disliked);
-            setIsdisLiked(!disliked);
-            if(liked){
-                setIsLiked(true);
+          const response = await axios.get(`${GENIUS_API_URL}/search`, {
+            params: {
+              q: `${title} ${artist}`
+            },
+            headers: {
+              'Authorization': `Bearer ${GENIUS_ACCESS_TOKEN}`
             }
+          });
+      
+          const song = response.data.response.hits[0]?.result;
+          if (song) {
+            const songUrl = song.url;
+            return songUrl;
+          } else {
+            throw new Error('Lyrics not found');
+          }
         } catch (error) {
-            console.error("Error updating dislikes:", error);
+          console.error('Error fetching lyrics:', error);
+          return null;
         }
-    };
+      };
+      
+      const LyricsDisplay = ({ currentSong }) => {
+        const [lyricsUrl, setLyricsUrl] = useState('');
+        const [loading, setLoading] = useState(true);
+        // console.log(currentSong);
+        useEffect(() => {
+          const getLyrics = async () => {
+            if (currentSong) {
+              const title= currentSong.track_name;
+              const artist= currentSong.artist_name;
+              console.log(title,artist);
+              const url = async()=>{
+                try {
+                    const response = await axios.get(`${API_URL}/lyrics/getLyrics`, {
+                      params: {
+                        title: title,
+                        artist: artist
+                      },
+                      headers: {
+                        'Authorization': `Bearer MYVDcdtW4lBMc4mdOSitFlzdtZIDXxoz7bu1PWwJv7VFqmV1Oi9V8r0ro_1ltr8a`
+                      }
+                    });
+                    console.log(response.data,"helo");
+                    console.log(response.data.lyrics);
+                    setLyricsUrl(response.data.lyrics);
+                    // const song = response.data.response.hits[0]?.result;
+                    // if (song) {
+                    //   const songUrl = song.url;
+                    //   return songUrl;
+                    // } else {
+                    //   throw new Error('Lyrics not found');
+                    // }
+                  } catch (error) {
+                    console.error('Error fetching lyrics:', error);
+                    return null;
+                  }
+              }              
+              setLoading(false);
+            }
+          };
+      
+          getLyrics();
+        }, [currentSong]);
 
-    console.log(currentSong,"hi");
+        return (
+            <div className="lyrics-container">
+              {loading ? (
+                <p>Loading lyrics...</p>
+              ) : lyricsUrl ? (
+                <a href={lyricsUrl} target="_blank" rel="noopener noreferrer">View Lyrics</a>
+              ) : (
+                <p>Lyrics not found</p>
+              )}
+            </div>
+          );
+    }
+
+    const NowPlaying = () => {
+        const { currentSong } = useContext(songContext);
+      
+        return (
+          <div className="now-playing-container">
+            {currentSong ? (
+              <>
+                <div className="song-info">
+                  <h2>{currentSong.title}</h2>
+                  <p>{currentSong.artist}</p>
+                </div>
+                <LyricsDisplay currentSong={currentSong} />
+              </>
+            ) : (
+              <p>No song is currently playing</p>
+            )}
+          </div>
+        );
+      };
+
+    // console.log(currentSong,"hi");
     return(
         <div className="overflow-auto" style={{ backgroundColor: '#070D04' }}>
             {playlistModalopen && <CreatePlaylist closeModal={()=>{setPlaylistModalopen(false)}} />}
@@ -231,6 +312,9 @@ const LoggedinContainer=({children,curActScreen})=>{
                 
                 <li className="nav-item">
                     <IconText iconName={"mdi:cards-heart"} displayText={"Liked Songs"} targetLink={"/LikedSongs"} active={curActScreen==='Liked Songs'} />
+                </li>
+                <li>
+                    <LyricsDisplay currentSong={currentSong} />
                 </li>
                 </ul>
                 {artist && <IconText onClick={()=>{setPlaylistModalopen(true)}} iconName={"material-symbols:add-box"} displayText={"Create Playlist"}/>}

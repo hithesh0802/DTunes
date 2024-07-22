@@ -88,9 +88,9 @@ const Card=({title,description,imgUrl,audioUrl})=>{
   };
 
     return(
-        <div className=' bg-opacity-30 w-1/6 rounded-md bg-gray-800' style={{ margin: '10px'}}>
+        <div className=' bg-opacity-30 w-1/6 rounded-md bg-gray-800' style={{ margin: '10px', marginBottom: "15px" }}>
             <img 
-                className='w-full h-48 object-cover rounded-md'
+                className='w-full h-48 px-1 object-cover rounded-md'
                 src={imgUrl}
                 alt='label image'
             />
@@ -99,7 +99,7 @@ const Card=({title,description,imgUrl,audioUrl})=>{
             <div className='text-gray-500 px-2'>{description}</div>
             <button 
               onClick={togglePlayPause} 
-              className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+              className="bg-blue-500 text-white py-2 px-4 mx-2 mt-2 rounded-md hover:bg-blue-600"
             >
               {isPlaying ? 'Pause' : 'Play'}
             </button>
