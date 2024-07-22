@@ -166,6 +166,36 @@ const SearchPage = ()=>{
 
 
 const UserCard = ({ user, sendFriendRequest,friendRequest }) => {
+  const [isNotFriend, setIsNotFriend] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [results, setResults] = useState([]);
+  const API_URL = 'http://localhost:5000/api';
+
+  useEffect(() => {
+    const checkFriendStatus = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.get(`${API_URL}/user/getdetails`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+        });
+        setResults(response.data);
+        console.log(response.data);
+        if (response.data.friends.includes(user._id) || (user._id === response.data.id)) {
+          setIsNotFriend(false);  
+        }
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }finally{
+        setIsLoading(false);
+      }
+    };
+
+    checkFriendStatus();
+  }, []);
+
   return (
       <div className=' bg-opacity-30 w-1/5 rounded-md bg-gray-700 p-5 m-5 hover:bg-opacity-50' style={{ margin: '10px' }} >
               <div className='text-white font-semibold py-2 px-2'><span className="font-bold">Username: </span> {user.username}</div>
@@ -176,7 +206,7 @@ const UserCard = ({ user, sendFriendRequest,friendRequest }) => {
                     Normal Account
                 </div> )
               }
-              {friendRequest && <button
+              {isNotFriend && <button
         className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg"
         onClick={() => sendFriendRequest(user._id)}
       >

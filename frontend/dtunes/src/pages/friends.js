@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoggedinContainer from '../components/LoggedinContainer';
 import { Icon } from '@iconify/react';
+import { Link } from 'react-router-dom';
 
 const FriendRequests = ({ userId }) => {
   const [friendRequests, setFriendRequests] = useState([]);
@@ -73,7 +74,8 @@ const FriendRequests = ({ userId }) => {
   };
 
   return (
-    <div className="bg-gray-800 p-6 rounded-lg text-white">
+    <div className="bg-gray-900 p-6 rounded-lg text-white">
+      
       <h3 className=" text-xl font-semibold mb-4">Friend Requests</h3>
       <ul className="space-y-4">
         {friendRequests.length > 0 ? (
@@ -93,7 +95,7 @@ const FriendRequests = ({ userId }) => {
         )}
       </ul>
       
-      <div className="min-h-screen text-white overflow-auto bg-gray-800">
+      <div className="min-h-screen text-white overflow-auto bg-gray-900">
       <div className="text-white text-xl font-semibold pt-5">My Friends</div>
       <div className="py-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {friends.length > 0 ? (
@@ -104,6 +106,12 @@ const FriendRequests = ({ userId }) => {
           <div className="text-white pt-7 ">No friends found.</div>
         )}
       </div>
+
+      <div className="mt-4">
+          <Link to="/home" className="bg-gradient-to-r from-blue-800 to-green-700 text-white font-semibold shadow-md hover:from-blue-600 hover:to-green-600 transition duration-200 py-2 px-4 rounded-lg">
+              Go Back
+          </Link>
+      </div>
       </div>
     </div>
   );
@@ -111,9 +119,9 @@ const FriendRequests = ({ userId }) => {
 
 const FriendCard = ({ friend }) => {
   return (
-    <div className='bg-opacity-30 w-full rounded-md bg-black p-5 m-5 hover:bg-opacity-50' style={{ margin: '10px' }}>
+    <div className='bg-opacity-30 w-full rounded-md bg-gray-700 p-5 m-5 hover:bg-opacity-50' style={{ margin: '10px' }}>
       <div className="aspect-w-1 aspect-h-1 m-2">
-        <Icon icon="iconamoon:profile-fill" className="bg-gray-900 text-6xl mb-5"></Icon>
+        <Icon icon="iconamoon:profile-fill" className="bg-gray-800 text-6xl mb-5"></Icon>
       </div>
       <div className='text-white font-semibold py-2 px-2'>{friend.username}</div>
       <div className='text-gray-300 px-2'><span className="font-bold">Email: </span>{friend.email}</div>
