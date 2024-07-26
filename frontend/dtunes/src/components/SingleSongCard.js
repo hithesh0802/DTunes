@@ -3,11 +3,11 @@ import songContext from "../context/songContext";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 const SingleSongCard=({info, playSound})=>{
-    console.log(info.likes,info.dislikes);
+    // console.log(info.likes,info.dislikes,"bola hu",info);
     const { currentSong, setCurrentSong, togglePlayPause, isPaused } = useContext(songContext);
     const handlePlayPause = () => {
           setCurrentSong(info);
-          togglePlayPause();       
+        //   togglePlayPause();       
       };
 
     return(
@@ -36,11 +36,11 @@ const SingleSongCard=({info, playSound})=>{
             <div className="pr-5">
                 <div className="flex justify-center items-center">
                 <Icon icon="weui:like-filled" className="m-2 text-sm  text-gray-500"></Icon>
-                <span className="text-gray-500 text-sm">{info.likes}</span>
+                <span className="text-gray-500 text-sm">{info.likes.length}</span>
                 </div>
                 <div className="flex justify-center items-center">
                 <Icon icon="iconamoon:dislike-fill" className="m-2 text-sm  text-gray-500"></Icon>
-                <span className="text-gray-500 text-sm">{info.dislikes}</span>
+                <span className="text-gray-500 text-sm">{info.dislikes.length}</span>
                 </div>
             </div>
             </div>

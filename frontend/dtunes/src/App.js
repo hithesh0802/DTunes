@@ -25,7 +25,8 @@ const App = () => {
     const [isPaused,setIsPaused]=useState(true);
     const [liked,setIsLiked]=useState(false);
     const [disliked,setIsdisLiked]=useState(false);
-
+    const [likes,setLikes]=useState(0);
+    const [dislikes,setDislikes]=useState(0);
     const [token, setToken] = useState(localStorage.getItem('token'));
 
     useEffect(() => {
@@ -57,7 +58,7 @@ const App = () => {
         <div className='min-h-screen w-full font-poppins bg-gray-800'>
             <Router>
                 { token ? (
-                    <songContext.Provider value={{currentSong,setCurrentSong,soundPlayed,setSoundPlayed,isPaused,setIsPaused,liked,disliked,setIsdisLiked,setIsLiked}}>
+                    <songContext.Provider value={{currentSong,setCurrentSong,soundPlayed,setSoundPlayed,isPaused,setIsPaused,liked,disliked,setIsdisLiked,setIsLiked,likes,setLikes,dislikes,setDislikes,}}>
                 <Routes>
                     
                         <Route path="/home" element={<Home /> } />

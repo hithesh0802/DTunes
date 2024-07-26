@@ -15,10 +15,10 @@ const LoggedinContainer=({children,curActScreen})=>{
     const [addtoplaylistModal,setAddtoPlaylistModal]= useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [artist,setArtist]=useState(true);
+    
     const API_URL= 'http://localhost:5000/api';
 
     const addsongtoPlaylist = async (Playlistid) => {
-        console.log("bella");
         const songId= currentSong._id;
         const payload= {playlistId: Playlistid,songId};
         const token= localStorage.getItem("token");
@@ -28,9 +28,6 @@ const LoggedinContainer=({children,curActScreen})=>{
                 'Authorization': `Bearer ${token}`
               },
         })
-
-        console.log(response.data);
-        console.log("see",response._id,response.data._id);
         if(response.data._id){
             setAddtoPlaylistModal(false);
         }
@@ -40,6 +37,10 @@ const LoggedinContainer=({children,curActScreen})=>{
         currentSong,
         liked,
         setIsLiked,
+        likes,
+        setLikes,
+        dislikes,
+        setDislikes,
         disliked,
         setIsdisLiked,
         setCurrentSong,
@@ -50,9 +51,9 @@ const LoggedinContainer=({children,curActScreen})=>{
         
     } = useContext(songContext);
 
-    console.log(liked,disliked);
     // const {} =useContext(songContext);
     const firstUpdate= useRef(true);
+    const [songdata,setSongData]= useState(currentSong);
     // const [soundPlayed,setSoundPlayed]= useState(null);
     // const [isPaused,setIsPaused]=useState(true);
 
@@ -80,8 +81,7 @@ const LoggedinContainer=({children,curActScreen})=>{
                     'Authorization': `Bearer ${token}`
                   },
             })
-            setArtist(response.data.artist);
-            console.log(response.data,response.data.artist);         
+            setArtist(response.data.artist);   
         }    
         getData();
     },[]);
@@ -103,7 +103,6 @@ const LoggedinContainer=({children,curActScreen})=>{
             });
     
           setSoundPlayed(sound); 
-          console.log(sound); 
           sound.play();
           setIsPaused(false);
     };
@@ -125,7 +124,6 @@ const LoggedinContainer=({children,curActScreen})=>{
     const changeLiked = async () => {
         if (!currentSong) return;  
         const token = localStorage.getItem("token");
-        console.log(liked,`${API_URL}/user/${currentSong._id}/liked`, `Bearer ${token}`);
         try {
             if(!liked){
                 const body={
@@ -137,7 +135,6 @@ const LoggedinContainer=({children,curActScreen})=>{
                         'Authorization': `Bearer ${token}`
                     }
                 });
-                console.log(response.data, liked);
                 setIsLiked(!liked);
                 if(disliked){
                     setIsdisLiked(false);
@@ -148,10 +145,40 @@ const LoggedinContainer=({children,curActScreen})=>{
         }
     };
 
+    const handleLike = async () => {
+      console.log(currentSong);
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.post(`http://localhost:5000/api/songs/like`, {
+          id: currentSong._id
+        }, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setSongData(response.data);
+      } catch (error) {
+        console.error('Error liking the song', error);
+      }
+    };
+  
+    const handleDislike = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.post(`http://localhost:5000/api/songs/${currentSong._id}/dislike`, {}, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setSongData(response.data);
+      } catch (error) {
+        console.error('Error disliking the song', error);
+      }
+    };
+
     const checkifLiked =async ()=>{
         if (!currentSong) return;  
         const token = localStorage.getItem("token");
-        console.log(liked,`${API_URL}/user/${currentSong._id}/liked`, `Bearer ${token}`);
         try {
                 const body={
                     token: token
@@ -162,7 +189,6 @@ const LoggedinContainer=({children,curActScreen})=>{
                         'Authorization': `Bearer ${token}`
                     }
                 });
-                console.log(response.data, liked,"hola");
                 setIsLiked(response.data);        
         } catch (error) {
             console.error("Error updating likes:", error);
@@ -199,13 +225,11 @@ const LoggedinContainer=({children,curActScreen})=>{
       const LyricsDisplay = ({ currentSong }) => {
         const [lyricsUrl, setLyricsUrl] = useState('');
         const [loading, setLoading] = useState(true);
-        // console.log(currentSong);
         useEffect(() => {
           const getLyrics = async () => {
             if (currentSong) {
               const title= currentSong.track_name;
               const artist= currentSong.artist_name;
-              console.log(title,artist);
               const url = async()=>{
                 try {
                     const response = await axios.get(`${API_URL}/lyrics/getLyrics`, {
@@ -217,16 +241,7 @@ const LoggedinContainer=({children,curActScreen})=>{
                         'Authorization': `Bearer MYVDcdtW4lBMc4mdOSitFlzdtZIDXxoz7bu1PWwJv7VFqmV1Oi9V8r0ro_1ltr8a`
                       }
                     });
-                    console.log(response.data,"helo");
-                    console.log(response.data.lyrics);
                     setLyricsUrl(response.data.lyrics);
-                    // const song = response.data.response.hits[0]?.result;
-                    // if (song) {
-                    //   const songUrl = song.url;
-                    //   return songUrl;
-                    // } else {
-                    //   throw new Error('Lyrics not found');
-                    // }
                   } catch (error) {
                     console.error('Error fetching lyrics:', error);
                     return null;
@@ -272,7 +287,6 @@ const LoggedinContainer=({children,curActScreen})=>{
         );
       };
 
-    // console.log(currentSong,"hi");
     return(
         <div className="overflow-auto" style={{ backgroundColor: '#070D04' }}>
             {playlistModalopen && <CreatePlaylist closeModal={()=>{setPlaylistModalopen(false)}} />}
@@ -361,8 +375,28 @@ const LoggedinContainer=({children,curActScreen})=>{
                 <button onClick={()=>{togglePLayPause()}}>
             <Icon icon={ isPaused? "ic:baseline-play-circle" : "ic:baseline-pause-circle"} className='m-4 text-4xl cursor-pointer text-gray-700 hover:text-white' ></Icon>
             </button>
+            <button className='pr-3' onClick={handleLike}>Like</button>
+            <button className='pr-3' onClick={handleDislike}>Dislike</button>
+            {
+                !currentSong? <div className='mr-4'>
+                  </div>:(
+                    <div className='mr-4'>
+                    <div className='flex justify-center align-middle'>
+                    <div className='pt-1 pr-1'><Icon icon="weui:like-filled"></Icon></div>
+                    
+                    <p className="">{currentSong.likes.length}</p> 
+                    </div>
+                    <div className='flex justify-center align-middle'>
+                    <div className='pt-1 pr-1'><Icon icon="iconamoon:dislike-fill"></Icon></div>
+                    <p className="">{currentSong.dislikes.length}</p> 
+                  </div>
+                    </div>
+                  )
+              }
+            
+            
                 <Icon icon="ic:round-playlist-add" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white' onClick={()=>{setAddtoPlaylistModal(true)}}></Icon>
-                <Icon icon="weui:like-filled" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${liked ? "text-red-600" : "text-gray-700"}`} onClick={()=>{changeLiked()}} style={{ color: liked ? "red" : "gray" }}></Icon>
+                {/* <Icon icon="weui:like-filled" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${liked ? "text-red-600" : "text-gray-700"}`} onClick={()=>{changeLiked()}} style={{ color: liked ? "red" : "gray" }}> {songdata}</Icon> */}
                 {/* <Icon icon="iconamoon:dislike-fill" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${disliked ? "text-red-900" : "text-gray-700"}`} onClick={()=>{changeddisLiked()}} style={{ color: disliked ? "maroon" : "gray" }}></Icon> */}
                 
             </div>

@@ -7,8 +7,8 @@ const SongSchema = new mongoose.Schema({
     artist: { type: String, required: true },
     url: { type: String, required: true },
     imgurl: { type: String, required: true },
-    likes: { type: Number, default: 0 },
-    dislikes: { type: Number, default: 0 },
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User',default:[] }],
+    dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User',default:[]  }],
     thumbnail: {type: String},
     description: {type:String, required:true},
     duration: {type:String, required:true}

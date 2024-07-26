@@ -74,15 +74,17 @@ const streamSong = async (req, res) => {
 
 const createSong = async (req, res) => {
     const { userId } = req.user?.id;
-    const {title ,artist, thumbnail, url,imgurl,description } = req.body;
-    console.log(req.user.id, userId , req.user);
+    const {title ,artist, thumbnail, url,imgurl,description,duration } = req.body;
+    console.log('Request Body:', req.body);
+    console.log('User ID:', req.user?.id, req.user);
     try {
         let song= await Song.findOne({url: url});
         if (song) {
             return res.status(400).json({ message: 'User already exists' });
         }
-
-        const newsong =  new Song({ user: req.user.id , title,artist,thumbnail,url,imgurl,description});
+        // const likes=[];
+        // const dislikes=[];
+        const newsong =  new Song({ user: req.user.id , title,artist,thumbnail,duration,url,imgurl,description,likes: [],dislikes: []});
         await newsong.save();
         console.log(newsong);
 
