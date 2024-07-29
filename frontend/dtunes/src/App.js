@@ -15,6 +15,7 @@ import MyPlaylists from './pages/MyPlaylists';
 import SinglePlaylistView from './pages/SinglePlaylistView';
 import LikedSongs from './pages/LikedSongs';
 import Profile from './pages/Profile';
+import PartyMode from './pages/PartyMode';
 import Logout from './pages/Logout';
 import { useState,useEffect } from 'react';
 import FriendRequests from './pages/friends';
@@ -72,6 +73,7 @@ const App = () => {
                         <Route path='/logout' element={<Logout onLogout={handleLogout} />} />
                         <Route path='/friends' element={<FriendRequests></FriendRequests>}></Route>
                         <Route path="*" element={<Navigate to="/home" />} />
+                        <Route path='/playlists/partymode' element={<PartyMode></PartyMode>} ></Route>
                 </Routes>
                 </songContext.Provider>
                 ) : (

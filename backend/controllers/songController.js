@@ -107,6 +107,21 @@ const getMySongs = async (req, res) => {
     }
 };
 
+const getSongById = async(req,res) =>{
+    const { id } = req.params; // Use req.query to get query parameters
+    console.log(id,req.params.id); // Check the ID being received
+    try {
+        let song = await Song.findById(req.params.id);
+        if (!song) {
+            return res.status(404).json({ message: "No song found." }); // Return 404 for not found
+        }
+        console.log(song);
+        res.status(200).json(song);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 const getSongsByArtist = async (req, res) => {
     const { artist } = req.body.artist.toString();
     console.log(artist, req.body, req.body.artist);
@@ -161,5 +176,5 @@ const uploadSong = async (req, res) => {
     }
   };
 
-module.exports = { searchSongs, streamSong, likeSong, dislikeSong,createSong ,getMySongs,getSongsByArtist,getSongsByTitle,uploadSong};
+module.exports = {getSongById, searchSongs, streamSong, likeSong, dislikeSong,createSong ,getMySongs,getSongsByArtist,getSongsByTitle,uploadSong};
 

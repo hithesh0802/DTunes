@@ -28,17 +28,21 @@ const LikedSongs =()=>{
     }
 
     useEffect(()=>{
-        const getData= async()=>{
-            const token= localStorage.getItem("token");
-            console.log(`${API_URL}/user/getLikedSongs`);
-            const response= await axios.get(`${API_URL}/user/getLikedSongs`,{
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                  },
-            });
-            setResults(response.data);
-            console.log(response.data);
+        const getData = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                console.log(`${API_URL}/user/getLikedSongs`);
+                const response = await axios.get(`${API_URL}/user/getLikedSongs`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+                setResults(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error("Error fetching liked songs:", error);
+            }
         };
         getData();
     },[]);
@@ -49,9 +53,13 @@ const LikedSongs =()=>{
             <div className="container mx-auto p-4 overflow-auto">
         <div className="text-white text-lg font-semibold pb-4 pl-2">My Liked Songs</div>
         <div className="space-y-3 overflow-auto">
-            {results.map((item,index)=>{    
-                return <SingleSongCard info={item} key={index} playSound={playSound}/>
-            })}
+        {results && results.length > 0 ? (
+            results.map((item, index) => (
+                <SingleSongCard info={item} key={index} playSound={playSound} />
+            ))
+        ) : (
+            <div className="text-white">No liked songs found.</div>
+        )}
         </div>
         
       </div>

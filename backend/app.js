@@ -12,6 +12,7 @@ const userRoutes= require('./routes/user');
 const spotify=require('./routes/spotify');
 const friends=require('./routes/friends');
 const lyrics= require('./routes/lyrics');
+const party_mode= require('./routes/party-mode');
 const PORT=  5000;
 const session = require('express-session');
 const path= require('path');
@@ -47,6 +48,7 @@ app.use('/api/user',userRoutes);
 app.use('/api/spotify',spotify);
 app.use('/api/friends',friends);
 app.use('/api/lyrics',lyrics);
+// app.use('/api/party-mode',party_mode);
 // app.use('/api/users', userRoutes);
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {

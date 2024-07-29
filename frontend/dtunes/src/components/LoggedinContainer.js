@@ -160,6 +160,8 @@ const LoggedinContainer=({children,curActScreen})=>{
       } catch (error) {
         console.error('Error liking the song', error);
       }
+
+      changeLiked();
     };
   
     const handleDislike = async () => {
@@ -328,7 +330,7 @@ const LoggedinContainer=({children,curActScreen})=>{
                     <IconText iconName={"mdi:cards-heart"} displayText={"Liked Songs"} targetLink={"/LikedSongs"} active={curActScreen==='Liked Songs'} />
                 </li>
                 <li>
-                    <LyricsDisplay currentSong={currentSong} />
+                    {/* <LyricsDisplay currentSong={currentSong} /> */}
                 </li>
                 </ul>
                 {artist && <IconText onClick={()=>{setPlaylistModalopen(true)}} iconName={"material-symbols:add-box"} displayText={"Create Playlist"}/>}
@@ -375,6 +377,8 @@ const LoggedinContainer=({children,curActScreen})=>{
                 <button onClick={()=>{togglePLayPause()}}>
             <Icon icon={ isPaused? "ic:baseline-play-circle" : "ic:baseline-pause-circle"} className='m-4 text-4xl cursor-pointer text-gray-700 hover:text-white' ></Icon>
             </button>
+            { currentSong.likes ? 
+            (<div>
             <button className='pr-3' onClick={handleLike}>Like</button>
             <button className='pr-3' onClick={handleDislike}>Dislike</button>
             {
@@ -393,10 +397,15 @@ const LoggedinContainer=({children,curActScreen})=>{
                     </div>
                   )
               }
-            
+              </div>) : (
+                <div>
+
+                </div>
+              )
+            }
             
                 <Icon icon="ic:round-playlist-add" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white' onClick={()=>{setAddtoPlaylistModal(true)}}></Icon>
-                {/* <Icon icon="weui:like-filled" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${liked ? "text-red-600" : "text-gray-700"}`} onClick={()=>{changeLiked()}} style={{ color: liked ? "red" : "gray" }}> {songdata}</Icon> */}
+                <Icon icon="weui:like-filled" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${liked ? "text-red-600" : "text-gray-700"}`} onClick={()=>{changeLiked()}} style={{ color: liked ? "red" : "gray" }}> {songdata}</Icon>
                 {/* <Icon icon="iconamoon:dislike-fill" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${disliked ? "text-red-900" : "text-gray-700"}`} onClick={()=>{changeddisLiked()}} style={{ color: disliked ? "maroon" : "gray" }}></Icon> */}
                 
             </div>

@@ -33,7 +33,8 @@ const SingleSongCard=({info, playSound})=>{
                 
                 {/* <div className="bg-white text-gray-400 flex items-center justify-center pl-3">...</div> */}
             </div>
-            <div className="pr-5">
+            {
+                info.likes ? ( <div className="pr-5">
                 <div className="flex justify-center items-center">
                 <Icon icon="weui:like-filled" className="m-2 text-sm  text-gray-500"></Icon>
                 <span className="text-gray-500 text-sm">{info.likes.length}</span>
@@ -42,7 +43,12 @@ const SingleSongCard=({info, playSound})=>{
                 <Icon icon="iconamoon:dislike-fill" className="m-2 text-sm  text-gray-500"></Icon>
                 <span className="text-gray-500 text-sm">{info.dislikes.length}</span>
                 </div>
-            </div>
+            </div> ) : (
+                <div>
+                    </div>
+            )
+            }
+            
             </div>
         </div>
     )
