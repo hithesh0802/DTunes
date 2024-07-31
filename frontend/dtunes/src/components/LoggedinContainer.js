@@ -70,7 +70,7 @@ const LoggedinContainer=({children,curActScreen})=>{
 
         changeSong(currentSong.preview_url || currentSong.url);
         checkifLiked();
-    },[currentSong && currentSong.url]);
+    },[currentSong ]);
 
     useEffect(()=>{
         const token= localStorage.getItem('token');
@@ -405,7 +405,7 @@ const LoggedinContainer=({children,curActScreen})=>{
             }
             
                 <Icon icon="ic:round-playlist-add" className='m-4 text-3xl cursor-pointer text-gray-700 hover:text-white' onClick={()=>{setAddtoPlaylistModal(true)}}></Icon>
-                <Icon icon="weui:like-filled" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${liked ? "text-red-600" : "text-gray-700"}`} onClick={()=>{changeLiked()}} style={{ color: liked ? "red" : "gray" }}> {songdata}</Icon>
+                <Icon icon="weui:like-filled" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${liked ? "text-red-600" : "text-gray-700"}`} onClick={()=>{changeLiked()}} style={{ color: liked ? "red" : "gray" }}> </Icon>
                 {/* <Icon icon="iconamoon:dislike-fill" className={`m-4 text-2xl cursor-pointer hover:text-gray-400 ${disliked ? "text-red-900" : "text-gray-700"}`} onClick={()=>{changeddisLiked()}} style={{ color: disliked ? "maroon" : "gray" }}></Icon> */}
                 
             </div>
